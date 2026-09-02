@@ -109,6 +109,13 @@ def employee_profile(request):
         'user': user
     },request))
 
+@login_required
+def all_users(request):
+    all_user = User.objects.all()
+    template = loader.get_template('all_users.html')
+    return HttpResponse(template.render({
+        'all_user': all_user
+    },request))
 
 def logout_view(request):
     logout(request)
