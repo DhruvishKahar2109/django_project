@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    {% load static %}
+
+    <meta charset="UTF-8">
+
+    <meta
+            content="width=device-width, initial-scale=1.0"
+            name="viewport"
+    >
+
+    <title>Employee Portal</title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f7fb;
+            color: #111827;
+            min-height: 100vh;
+        }
+
+
+        /* =========================================
+           TOP HEADER
+        ========================================= */
+
+        .header {
+            height: 70px;
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 30px;
+
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+
+            z-index: 1000;
+        }
+
+
+        .logo {
+            font-size: 23px;
+            font-weight: 700;
+            color: #111827;
+        }
+
+
+        .logo span {
+            color: #2563eb;
+        }
+
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+
+        .header-user {
+            width: 38px;
+            height: 38px;
+
+            border-radius: 50%;
+
+            background: #eff6ff;
+            color: #2563eb;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-weight: 700;
+        }
+
+
+        .logout-btn {
+            text-decoration: none;
+
+            padding: 10px 18px;
+
+            border-radius: 8px;
+
+            background: #f3f4f6;
+            color: #374151;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            transition: 0.2s;
+        }
+
+
+        .logout-btn:hover {
+            background: #e5e7eb;
+        }
+
+
+
+        /* =========================================
+           SIDEBAR
+        ========================================= */
+
+        .sidebar {
+            position: fixed;
+
+            top: 70px;
+            left: 0;
+            bottom: 0;
+
+            width: 240px;
+
+            background: #ffffff;
+
+            border-right: 1px solid #e5e7eb;
+
+            padding: 25px 15px;
+
+            z-index: 900;
+        }
+
+
+        .menu-title {
+            font-size: 11px;
+
+            font-weight: 700;
+
+            color: #9ca3af;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1px;
+
+            padding: 0 12px;
+
+            margin-bottom: 10px;
+        }
+
+
+        .menu {
+            list-style: none;
+        }
+
+
+        .menu li {
+            margin-bottom: 5px;
+        }
+
+
+        .menu a {
+            text-decoration: none;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 13px;
+
+            padding: 12px;
+
+            border-radius: 9px;
+
+            color: #4b5563;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            transition: all 0.2s ease;
+        }
+
+
+        .menu a:hover {
+            background: #f3f6ff;
+            color: #2563eb;
+        }
+
+
+        .menu a.active {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+
+        .menu-icon {
+            width: 20px;
+
+            display: flex;
+
+            justify-content: center;
+
+            font-size: 17px;
+        }
+
+
+        .menu-divider {
+            height: 1px;
+
+            background: #eeeeee;
+
+            margin: 22px 8px;
+        }
+
+
+
+        /* =========================================
+           MAIN CONTENT
+        ========================================= */
+
+        .main {
+            margin-left: 240px;
+
+            padding: 105px 45px 50px;
+
+            min-height: 100vh;
+        }
+
+
+        .container {
+            width: 100%;
+            max-width: 1100px;
+
+            margin: 0 auto;
+        }
+
+
+        .page-title {
+            margin-bottom: 25px;
+        }
+
+
+        .page-title h1 {
+            font-size: 30px;
+
+            margin-bottom: 7px;
+
+            color: #111827;
+        }
+
+
+        .page-title p {
+            color: #6b7280;
+
+            font-size: 15px;
+        }
+
+
+
+        /* =========================================
+           PROFILE CARD
+        ========================================= */
+
+        .profile-card {
+            background: #ffffff;
+
+            border-radius: 18px;
+
+            overflow: hidden;
+
+            box-shadow:
+                    0 10px 35px rgba(0, 0, 0, 0.07);
+        }
+
+
+
+        /* PROFILE TOP */
+
+        .profile-top {
+            background:
+                    linear-gradient(
+                            135deg,
+                            #2563eb,
+                            #4f46e5
+                    );
+
+            padding: 28px 30px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 20px;
+
+            color: white;
+        }
+
+
+        .avatar {
+            width: 65px;
+            height: 65px;
+
+            border-radius: 50%;
+
+            background: white;
+
+            color: #2563eb;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 28px;
+
+            font-weight: 700;
+
+            border: 4px solid
+            rgba(255, 255, 255, 0.3);
+        }
+
+
+        .profile-name h2 {
+            font-size: 23px;
+
+            margin-bottom: 5px;
+        }
+
+
+        .profile-name p {
+            font-size: 14px;
+
+            opacity: 0.9;
+        }
+
+
+
+        /* =========================================
+           PROFILE BODY
+        ========================================= */
+
+        .profile-body {
+            padding: 35px;
+        }
+
+
+        .section-header {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin-bottom: 25px;
+        }
+
+
+        .section-header h3 {
+            font-size: 20px;
+
+            color: #111827;
+        }
+
+
+        .edit-btn {
+            border: none;
+
+            cursor: pointer;
+
+            padding: 10px 18px;
+
+            border-radius: 8px;
+
+            background: #2563eb;
+
+            color: white;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            transition: 0.2s;
+        }
+
+
+        .edit-btn:hover {
+            background: #1d4ed8;
+        }
+
+
+
+        /* =========================================
+           DETAILS
+        ========================================= */
+
+        .details-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 20px;
+        }
+
+
+        .detail-box {
+            padding: 18px;
+
+            border: 1px solid #e5e7eb;
+
+            border-radius: 12px;
+
+            background: #fafafa;
+
+            transition: 0.2s;
+        }
+
+
+        .detail-box:hover {
+            border-color: #bfdbfe;
+
+            background: #f8fbff;
+        }
+
+
+        .detail-label {
+            display: block;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            color: #6b7280;
+
+            text-transform: uppercase;
+
+            margin-bottom: 8px;
+
+            letter-spacing: 0.7px;
+        }
+
+
+        .detail-value {
+            font-size: 16px;
+
+            font-weight: 600;
+
+            color: #111827;
+
+            word-break: break-word;
+        }
+
+
+
+        /* =========================================
+           EDIT FORM
+        ========================================= */
+
+        .edit-form {
+            display: none;
+        }
+
+
+        .form-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 20px;
+        }
+
+
+        .form-group {
+            display: flex;
+
+            flex-direction: column;
+        }
+
+
+        .form-group label {
+            font-size: 13px;
+
+            font-weight: 600;
+
+            margin-bottom: 8px;
+
+            color: #374151;
+        }
+
+
+        .form-group input {
+            height: 45px;
+
+            border: 1px solid #d1d5db;
+
+            border-radius: 8px;
+
+            padding: 0 13px;
+
+            font-size: 14px;
+
+            outline: none;
+
+            transition: 0.2s;
+        }
+
+
+        .form-group input:focus {
+            border-color: #2563eb;
+
+            box-shadow:
+                    0 0 0 3px
+                    rgba(37, 99, 235, 0.10);
+        }
+
+
+        .form-actions {
+            margin-top: 25px;
+
+            display: flex;
+
+            gap: 10px;
+        }
+
+
+        .save-btn,
+        .cancel-btn {
+            padding: 11px 22px;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            border: none;
+        }
+
+
+        .save-btn {
+            background: #2563eb;
+
+            color: white;
+        }
+
+
+        .save-btn:hover {
+            background: #1d4ed8;
+        }
+
+
+        .cancel-btn {
+            background: #f3f4f6;
+
+            color: #374151;
+        }
+
+
+        .cancel-btn:hover {
+            background: #e5e7eb;
+        }
+
+
+
+        /* =========================================
+           MOBILE MENU BUTTON
+        ========================================= */
+
+        .mobile-menu-btn {
+            display: none;
+
+            border: none;
+
+            background: transparent;
+
+            font-size: 24px;
+
+            cursor: pointer;
+
+            color: #374151;
+        }
+
+
+
+        /* =========================================
+           MOBILE
+        ========================================= */
+
+        @media (max-width: 800px) {
+
+            .header {
+                padding: 0 18px;
+            }
+
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+
+            .logo {
+                font-size: 20px;
+            }
+
+
+            .header-user {
+                display: none;
+            }
+
+
+            .sidebar {
+                width: 230px;
+
+                transform: translateX(-100%);
+
+                transition: 0.3s ease;
+
+                box-shadow:
+                        5px 0 20px
+                        rgba(0, 0, 0, 0.08);
+            }
+
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+
+            .main {
+                margin-left: 0;
+
+                padding:
+                        100px 18px 30px;
+            }
+
+
+            .page-title h1 {
+                font-size: 25px;
+            }
+
+
+            .profile-top {
+                padding: 22px;
+            }
+
+
+            .profile-body {
+                padding: 22px;
+            }
+
+
+            .details-grid,
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+
+            .section-header {
+                align-items: flex-start;
+
+                gap: 15px;
+            }
+
+        }
+
+
+        @media (max-width: 500px) {
+
+            .logout-btn {
+                padding: 9px 13px;
+
+                font-size: 13px;
+            }
+
+
+            .profile-top {
+                gap: 14px;
+            }
+
+
+            .avatar {
+                width: 55px;
+                height: 55px;
+
+                font-size: 23px;
+            }
+
+
+            .profile-name h2 {
+                font-size: 19px;
+            }
+
+
+            .profile-body {
+                padding: 18px;
+            }
+
+
+            .section-header {
+                flex-direction: column;
+            }
+
+
+            .edit-btn {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================
+     HEADER
+========================================= -->
+
+<header class="header">
+
+    <button
+            class="mobile-menu-btn"
+            onclick="toggleSidebar()"
+            type="button"
+    >
+        ☰
+    </button>
+
+
+    <div class="logo">
+        Employee<span>Portal</span>
+    </div>
+
+
+    <div class="header-right">
+
+        <div class="header-user">
+            {{ user.first_name|first|upper }}
+        </div>
+
+
+        <a
+                class="logout-btn"
+                href="{% url 'logout' %}"
+        >
+            Logout
+        </a>
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================================
+     SIDEBAR
+========================================= -->
+
+<aside class="sidebar" id="sidebar">
+
+
+    <div class="menu-title">
+        Main Menu
+    </div>
+
+
+    <ul class="menu">
+
+        <li>
+
+            <a href="#" class="active">
+
+                <span class="menu-icon">
+                    ▦
+                </span>
+
+                Dashboard
+
+            </a>
+
+        </li>
+
+
+        <li>
+
+            <a href="{% url 'employee_profile' %}">
+
+                <span class="menu-icon">
+                    👤
+                </span>
+
+                My Profile
+
+            </a>
+
+        </li>
+
+
+        <li>
+
+            <a href="#">
+
+                <span class="menu-icon">
+                    👥
+                </span>
+
+                Users
+
+            </a>
+
+        </li>
+
+
+        <li>
+
+            <a href="#">
+
+                <span class="menu-icon">
+                    💼
+                </span>
+
+                Employees
+
+            </a>
+
+        </li>
+
+
+    </ul>
+
+
+    <div class="menu-divider"></div>
+
+
+    <div class="menu-title">
+        Management
+    </div>
+
+
+    <ul class="menu">
+
+        <li>
+
+            <a href="#">
+
+                <span class="menu-icon">
+                    📊
+                </span>
+
+                Reports
+
+            </a>
+
+        </li>
+
+
+        <li>
+
+            <a href="#">
+
+                <span class="menu-icon">
+                    ⚙
+                </span>
+
+                Settings
+
+            </a>
+
+        </li>
+
+    </ul>
+
+
+</aside>
+
+
+
+<!-- =========================================
+     MAIN CONTENT
+========================================= -->
+
+<main class="main">
+
+    <div class="container">
+
+
+        <div class="page-title">
+
+            <h1>
+                Profile
+            </h1>
+
+            <p>
+                View and manage your personal information.
+            </p>
+
+        </div>
+
+
+
+        <!-- PROFILE CARD -->
+
+        <div class="profile-card">
+
+
+            <!-- PROFILE HEADER -->
+
+            <div class="profile-top">
+
+
+                <div class="avatar">
+
+                    {{ user.first_name|first|upper }}
+
+                </div>
+
+
+                <div class="profile-name">
+
+                    <h2>
+
+                        {{ user.first_name }}
+                        {{ user.last_name }}
+
+                    </h2>
+
+
+                    <p>
+
+                        @{{ user.username }}
+
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+
+            <div class="profile-body">
+
+
+                <!-- =================================
+                     VIEW MODE
+                ================================= -->
+
+                <div id="viewMode">
+
+
+                    <div class="section-header">
+
+                        <h3>
+                            Personal Information
+                        </h3>
+
+
+                        <button
+                                class="edit-btn"
+                                onclick="showEditForm()"
+                                type="button"
+                        >
+                            Edit Profile
+                        </button>
+
+                    </div>
+
+
+
+                    <div class="details-grid">
+
+
+                        <div class="detail-box">
+
+                            <span class="detail-label">
+                                First Name
+                            </span>
+
+                            <span class="detail-value">
+                                {{ user.first_name|default:"Not provided" }}
+                            </span>
+
+                        </div>
+
+
+
+                        <div class="detail-box">
+
+                            <span class="detail-label">
+                                Last Name
+                            </span>
+
+                            <span class="detail-value">
+                                {{ user.last_name|default:"Not provided" }}
+                            </span>
+
+                        </div>
+
+
+
+                        <div class="detail-box">
+
+                            <span class="detail-label">
+                                Username
+                            </span>
+
+                            <span class="detail-value">
+                                {{ user.username }}
+                            </span>
+
+                        </div>
+
+
+
+                        <div class="detail-box">
+
+                            <span class="detail-label">
+                                Email
+                            </span>
+
+                            <span class="detail-value">
+                                {{ user.email|default:"Not provided" }}
+                            </span>
+
+                        </div>
+
+
+
+                        <div class="detail-box">
+
+                            <span class="detail-label">
+                                Date Joined
+                            </span>
+
+                            <span class="detail-value">
+                                {{ user.date_joined|date:"d M Y" }}
+                            </span>
+
+                        </div>
+
+
+
+                        <div class="detail-box">
+
+                            <span class="detail-label">
+                                Last Login
+                            </span>
+
+                            <span class="detail-value">
+
+                                {% if user.last_login %}
+
+                                    {{ user.last_login|date:"d M Y, h:i A" }}
+
+                                {% else %}
+
+                                    No login yet
+
+                                {% endif %}
+
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =================================
+                     EDIT MODE
+                ================================= -->
+
+                <div
+                        class="edit-form"
+                        id="editMode"
+                >
+
+
+                    <div class="section-header">
+
+                        <h3>
+                            Update Profile
+                        </h3>
+
+                    </div>
+
+
+
+                    <form
+                            method="POST"
+                            action="{% url 'employee_profile' %}"
+                    >
+
+                        {% csrf_token %}
+
+
+                        <div class="form-grid">
+
+
+                            <div class="form-group">
+
+                                <label for="first_name">
+                                    First Name
+                                </label>
+
+                                <input
+                                        id="first_name"
+                                        name="first_name"
+                                        type="text"
+                                        value="{{ user.first_name }}"
+                                        required
+                                >
+
+                            </div>
+
+
+
+                            <div class="form-group">
+
+                                <label for="last_name">
+                                    Last Name
+                                </label>
+
+                                <input
+                                        id="last_name"
+                                        name="last_name"
+                                        type="text"
+                                        value="{{ user.last_name }}"
+                                        required
+                                >
+
+                            </div>
+
+
+
+                            <div class="form-group">
+
+                                <label for="username">
+                                    Username
+                                </label>
+
+                                <input
+                                        id="username"
+                                        name="username"
+                                        type="text"
+                                        value="{{ user.username }}"
+                                        required
+                                >
+
+                            </div>
+
+
+
+                            <div class="form-group">
+
+                                <label for="email">
+                                    Email Address
+                                </label>
+
+                                <input
+                                        id="email"
+                                        name="email"
+                                        type="email"
+                                        value="{{ user.email }}"
+                                        required
+                                >
+
+                            </div>
+
+
+                        </div>
+
+
+
+                        <div class="form-actions">
+
+
+                            <button
+                                    class="save-btn"
+                                    type="submit"
+                            >
+                                Save Changes
+                            </button>
+
+
+                            <button
+                                    class="cancel-btn"
+                                    onclick="hideEditForm()"
+                                    type="button"
+                            >
+                                Cancel
+                            </button>
+
+
+                        </div>
+
+
+                    </form>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+</main>
+
+
+
+<script>
+
+
+    /* =========================================
+       EDIT PROFILE
+    ========================================= */
+
+    function showEditForm() {
+
+        document.getElementById("viewMode").style.display = "none";
+
+        document.getElementById("editMode").style.display = "block";
+
+    }
+
+
+    function hideEditForm() {
+
+        document.getElementById("editMode").style.display = "none";
+
+        document.getElementById("viewMode").style.display = "block";
+
+    }
+
+
+
+    /* =========================================
+       MOBILE SIDEBAR
+    ========================================= */
+
+    function toggleSidebar() {
+
+        document
+            .getElementById("sidebar")
+            .classList
+            .toggle("open");
+
+    }
+
+
+</script>
+
+
+</body>
+
+</html>

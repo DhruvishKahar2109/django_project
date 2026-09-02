@@ -1,0 +1,17 @@
+{% extends 'master.html' %}
+{% block title %}
+My First Project - List of all Services
+{% endblock %}
+
+{% block content %}
+
+<h1>Our Services</h1>
+
+<p>This is Service page</p>
+<ul>
+    {% for service in services %}
+    <li><a href="details/{{ service.id }}">{{ service.name }}</a></li>
+    {% endfor%}
+
+    {% endblock %}
+</ul>

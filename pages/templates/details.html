@@ -1,0 +1,10 @@
+{%extends 'master.html'%}
+{%block title%} My First Project - Service Detail {%endblock%}
+{% block content %}
+<h1>Service Detail</h1>
+<h4>{{ myService.name }}</h4>
+<p>
+    {{ myService.description }}
+</p>
+<p>Back to <a href="/services">Services</a></p>
+{% endblock %}
