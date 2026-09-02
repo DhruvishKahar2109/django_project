@@ -870,107 +870,280 @@
 </head>
 
 <body>
-<div class="page-header">
-    <div>
-        <h1>All Users</h1>
-        <p>View and manage all registered users.</p>
+<!-- =========================================
+     HEADER
+========================================= -->
+
+<header class="header">
+
+    <button
+            class="mobile-menu-btn"
+            onclick="toggleSidebar()"
+            type="button"
+    >
+        ☰
+    </button>
+
+
+    <div class="logo">
+        Employee<span>Portal</span>
     </div>
 
-    <a href="#" class="add-user-btn">+ Add User</a>
-</div>
 
-<div class="users-card">
+    <div class="header-right">
 
-    <div class="users-card-header">
-        <div>
-            <h2>Users</h2>
-            <p>Manage your registered users.</p>
+        <div class="header-user">
+            {{ user.first_name|first|upper }}
         </div>
 
-        <div class="search-box">
-            <input type="text" placeholder="Search users...">
+
+        <a
+                class="logout-btn"
+                href="{% url 'logout' %}"
+        >
+            Logout
+        </a>
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================================
+     SIDEBAR
+========================================= -->
+
+<aside class="sidebar" id="sidebar">
+
+
+    <div class="menu-title">
+        Main Menu
+    </div>
+
+
+    <ul class="menu">
+
+        <li>
+
+            <a href="#" class="active">
+
+                <span class="menu-icon">
+                    ▦
+                </span>
+
+                Dashboard
+
+            </a>
+
+        </li>
+
+
+        <li>
+
+            <a href="{% url 'employee_profile' %}">
+
+                <span class="menu-icon">
+                    👤
+                </span>
+
+                My Profile
+
+            </a>
+
+        </li>
+
+
+        <li>
+
+            <a href="/all_users/">
+
+                <span class="menu-icon">
+                    👥
+                </span>
+
+                Users
+
+            </a>
+
+        </li>
+
+
+        <li>
+
+            <a href="#">
+
+                <span class="menu-icon">
+                    💼
+                </span>
+
+                Employees
+
+            </a>
+
+        </li>
+
+
+    </ul>
+
+
+    <div class="menu-divider"></div>
+
+
+    <div class="menu-title">
+        Management
+    </div>
+
+
+    <ul class="menu">
+
+        <li>
+
+            <a href="#">
+
+                <span class="menu-icon">
+                    📊
+                </span>
+
+                Reports
+
+            </a>
+
+        </li>
+
+
+        <li>
+
+            <a href="#">
+
+                <span class="menu-icon">
+                    ⚙
+                </span>
+
+                Settings
+
+            </a>
+
+        </li>
+
+    </ul>
+
+
+</aside>
+
+
+
+<!-- =========================================
+     MAIN CONTENT
+========================================= -->
+
+<main class="main">
+
+    <div class="container">
+        <div class="page-header">
+            <div>
+                <h1>All Users</h1>
+                <p>View and manage all registered users.</p>
+            </div>
+
+            <a href="#" class="add-user-btn">+ Add User</a>
+        </div>
+
+        <div class="users-card">
+
+            <div class="users-card-header">
+                <div>
+                    <h2>Users</h2>
+                    <p>Manage your registered users.</p>
+                </div>
+
+                <div class="search-box">
+                    <input type="text" placeholder="Search users...">
+                </div>
+            </div>
+
+            <div class="table-wrapper">
+                <table class="users-table">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>User</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Date Joined</th>
+                        <th>Last Login</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+
+                        <td>
+                            <div class="user-info">
+                                <div class="user-avatar">
+                                    {{ user.first_name|first|default:user.username|first|upper }}
+                                </div>
+
+                                <div>
+                                    <strong>
+                                        {{ user.first_name }} {{ user.last_name }}
+                                    </strong>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td>@{{ user.username }}</td>
+
+                        <td>{{ user.email }}</td>
+
+                        <td>
+                            {{ user.date_joined|date:"d M Y" }}
+                        </td>
+
+                        <td>
+                            {% if user.last_login %}
+                            {{ user.last_login|date:"d M Y, h:i A" }}
+                            {% else %}
+                            Never
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {% if user.is_active %}
+                            <span class="status active">Active</span>
+                            {% else %}
+                            <span class="status inactive">Inactive</span>
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            <a href="#" class="view-btn">View</a>
+                        </td>
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+                        <td colspan="8" class="empty-users">
+                            No users found.
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+
         </div>
     </div>
+</main>
 
-    <div class="table-wrapper">
-        <table class="users-table">
-            <thead>
-            <tr>
-                <th>#</th>
-                <th>User</th>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Date Joined</th>
-                <th>Last Login</th>
-                <th>Status</th>
-                <th>Action</th>
-            </tr>
-            </thead>
-
-            <tbody>
-
-            {% for user in users %}
-            <tr>
-                <td>{{ forloop.counter }}</td>
-
-                <td>
-                    <div class="user-info">
-                        <div class="user-avatar">
-                            {{ user.first_name|first|default:user.username|first|upper }}
-                        </div>
-
-                        <div>
-                            <strong>
-                                {{ user.first_name }} {{ user.last_name }}
-                            </strong>
-                        </div>
-                    </div>
-                </td>
-
-                <td>@{{ user.username }}</td>
-
-                <td>{{ user.email }}</td>
-
-                <td>
-                    {{ user.date_joined|date:"d M Y" }}
-                </td>
-
-                <td>
-                    {% if user.last_login %}
-                    {{ user.last_login|date:"d M Y, h:i A" }}
-                    {% else %}
-                    Never
-                    {% endif %}
-                </td>
-
-                <td>
-                    {% if user.is_active %}
-                    <span class="status active">Active</span>
-                    {% else %}
-                    <span class="status inactive">Inactive</span>
-                    {% endif %}
-                </td>
-
-                <td>
-                    <a href="#" class="view-btn">View</a>
-                </td>
-            </tr>
-
-            {% empty %}
-
-            <tr>
-                <td colspan="8" class="empty-users">
-                    No users found.
-                </td>
-            </tr>
-
-            {% endfor %}
-
-            </tbody>
-        </table>
-    </div>
-
-</div>
 </body>
 
 </html>
