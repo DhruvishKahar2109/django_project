@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login | MyStore</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link rel="stylesheet" href="{%  static 'css/style.css' %}">
+</head>
+
+<body>
+<!-- Toast Container -->
+<div class="toast-container">
+    {% if messages %}
+
+    {% for message in messages %}
+
+    <div class="toast toast-{{ message.tags }}">
+
+        <div class="toast-icon">
+
+            {% if message.tags == "success" %}
+            <i class="fa-solid fa-check"></i>
+
+            {% elif message.tags == "error" %}
+            <i class="fa-solid fa-xmark"></i>
+
+            {% elif message.tags == "warning" %}
+            <i class="fa-solid fa-exclamation"></i>
+
+            {% else %}
+            <i class="fa-solid fa-info"></i>
+            {% endif %}
+
+        </div>
+
+        <div class="toast-content">
+
+            <strong>
+                {% if message.tags == "success" %}
+                Success
+
+                {% elif message.tags == "error" %}
+                Error
+
+                {% elif message.tags == "warning" %}
+                Warning
+
+                {% else %}
+                Information
+                {% endif %}
+            </strong>
+
+            <p>{{ message }}</p>
+
+        </div>
+
+        <button
+                class="toast-close"
+                onclick="closeToast(this)"
+        >
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <div class="toast-progress"></div>
+
+    </div>
+
+    {% endfor %}
+
+    {% endif %}
+
+</div>
+<div class="login-wrapper">
+
+    <!-- LEFT COVER -->
+    <div class="login-cover">
+
+        <div class="cover-overlay"></div>
+
+        <div class="cover-content">
+
+            <div class="brand">
+                <div class="brand-icon">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                </div>
+
+                <span>MyStore</span>
+            </div>
+
+            <div class="cover-text">
+
+                <span class="small-title">WELCOME BACK</span>
+
+                <h1>
+                    Everything you need,
+                    <span>all in one place.</span>
+                </h1>
+
+                <p>
+                    Discover amazing products, exclusive offers
+                    and a shopping experience designed just for you.
+                </p>
+
+                <div class="cover-features">
+
+                    <div class="feature">
+                        <i class="fa-solid fa-shield-halved"></i>
+
+                        <div>
+                            <strong>Secure Shopping</strong>
+                            <small>Your data is always protected.</small>
+                        </div>
+                    </div>
+
+                    <div class="feature">
+                        <i class="fa-solid fa-truck-fast"></i>
+
+                        <div>
+                            <strong>Fast Delivery</strong>
+                            <small>Quick and reliable delivery.</small>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="cover-footer">
+                © 2026 MyStore. All rights reserved.
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- RIGHT LOGIN -->
+    <div class="login-section">
+
+        <div class="login-card">
+
+            <div class="mobile-brand">
+                <div class="brand-icon">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                </div>
+                <span>MyStore</span>
+            </div>
+
+            <div class="login-heading">
+                <h2>Welcome back 👋</h2>
+
+                <p>
+                    Please enter your details to sign in.
+                </p>
+            </div>
+
+
+            <form method="POST">
+
+                <!-- Django CSRF -->
+                {% csrf_token %}
+
+                <div class="form-group">
+
+                    <label for="email">
+                        Email Address
+                    </label>
+
+                    <div class="input-box">
+
+                        <i class="fa-regular fa-envelope"></i>
+
+                        <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                placeholder="Enter your email"
+                                value="{{ request.POST.email | default:'' }}"
+                                autocomplete="email"
+                                required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <div class="password-label">
+
+                        <label for="password">
+                            Password
+                        </label>
+
+                    </div>
+
+                    <div class="input-box">
+
+                        <i class="fa-solid fa-lock"></i>
+
+                        <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="Enter your password"
+                                value="{{ request.POST.password | default:'' }}"
+                                autocomplete="current-password"
+                                required
+                        >
+
+                        <button
+                                type="button"
+                                class="password-toggle"
+                                onclick="togglePassword()"
+                        >
+                            <i class="fa-regular fa-eye" id="eyeIcon"></i>
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div class="remember-row">
+
+                    <label class="remember">
+
+                        <input type="checkbox" name="remember">
+
+                        <span>Remember me</span>
+
+                    </label>
+
+                </div>
+
+
+                <button type="submit" class="login-btn">
+                    Sign In
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </form>
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    function togglePassword() {
+
+        const password = document.getElementById("password");
+        const eyeIcon = document.getElementById("eyeIcon");
+
+        if (password.type === "password") {
+
+            password.type = "text";
+
+            eyeIcon.classList.remove("fa-eye");
+            eyeIcon.classList.add("fa-eye-slash");
+
+        } else {
+
+            password.type = "password";
+
+            eyeIcon.classList.remove("fa-eye-slash");
+            eyeIcon.classList.add("fa-eye");
+
+        }
+
+    }
+
+</script>
+<script>
+
+    function closeToast(button) {
+
+        const toast = button.closest(".toast");
+
+        toast.style.animation = "toastSlideOut 0.4s ease forwards";
+
+        setTimeout(() => {
+            toast.remove();
+        }, 400);
+    }
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const toasts = document.querySelectorAll(".toast");
+
+        toasts.forEach(function (toast) {
+
+            setTimeout(function () {
+
+                toast.style.animation =
+                    "toastSlideOut 0.4s ease forwards";
+
+                setTimeout(function () {
+                    toast.remove();
+                }, 400);
+
+            }, 4000);
+
+        });
+
+    });
+
+</script>
+</body>
+</html>

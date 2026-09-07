@@ -1,0 +1,132 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+{% block content %}
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Dashboard</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Dashboard v1</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- Orders -->
+                <div class="col-lg-4 col-6">
+
+                    <div class="small-box bg-primary">
+
+                        <div class="inner">
+
+                            <h3>
+                                0
+                            </h3>
+
+                            <p>
+                                Total Orders
+                            </p>
+
+                        </div>
+
+                        <div class="icon">
+
+                            <i class="fas fa-shopping-cart"></i>
+
+                        </div>
+
+                        <a class="small-box-footer" href="#">
+
+                            View Orders
+                            <i class="fas fa-arrow-circle-right"></i>
+
+                        </a>
+
+                    </div>
+
+                </div>
+                <!-- Customers -->
+                <div class="col-lg-4 col-6">
+
+                    <div class="small-box bg-info">
+
+                        <div class="inner">
+
+                            <h3>
+                                0
+                            </h3>
+
+                            <p>
+                                Customers
+                            </p>
+
+                        </div>
+
+                        <div class="icon">
+
+                            <i class="fas fa-users"></i>
+
+                        </div>
+
+                        <a class="small-box-footer" href="#">
+
+                            View Customers
+                            <i class="fas fa-arrow-circle-right"></i>
+
+                        </a>
+
+                    </div>
+
+                </div>
+                <!-- Products -->
+
+                <div class="col-lg-4 col-6">
+
+                    <div class="small-box bg-warning">
+
+                        <div class="inner">
+
+                            <h3>
+                                0
+                            </h3>
+
+                            <p>
+                                Products
+                            </p>
+
+                        </div>
+
+                        <div class="icon">
+
+                            <i class="fas fa-box"></i>
+
+                        </div>
+
+                        <a class="small-box-footer" href="#">
+
+                            Manage Products
+                            <i class="fas fa-arrow-circle-right"></i>
+
+                        </a>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{%endblock%}
+{%block page_js%}
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<script src="{% static 'backend/dist/js/pages/dashboard.js' %}"></script>
+{%endblock%}

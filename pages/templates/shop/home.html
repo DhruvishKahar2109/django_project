@@ -1,0 +1,762 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>NovaCart | Shop Smarter</title>
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<header class="navbar">
+
+    <div class="nav-container">
+
+        <a href="#" class="logo">
+            <span class="logo-icon">
+                <i class="fa-solid fa-bag-shopping"></i>
+            </span>
+            Nova<span>Cart</span>
+        </a>
+
+        <nav class="nav-links">
+
+            <a href="#" class="active">Home</a>
+            <a href="#">Shop</a>
+            <a href="#">Categories</a>
+            <a href="#">Deals</a>
+            <a href="#">About</a>
+
+        </nav>
+
+        <div class="nav-actions">
+
+            <button class="nav-btn">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+
+            <button class="nav-btn cart-btn">
+                <i class="fa-solid fa-bag-shopping"></i>
+                <span>2</span>
+            </button>
+
+            <a href="#" class="profile-btn">
+                <i class="fa-regular fa-user"></i>
+            </a>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+    <div class="hero-bg-circle circle-one"></div>
+    <div class="hero-bg-circle circle-two"></div>
+
+    <div class="hero-container">
+
+        <!-- LEFT -->
+
+        <div class="hero-content">
+
+            <div class="hero-tag">
+                <span></span>
+                NEW COLLECTION 2026
+            </div>
+
+            <h1>
+                Discover
+                <span>Something</span>
+                You'll Love.
+            </h1>
+
+            <p>
+                Explore premium products, exclusive deals and
+                everything you need — all in one beautiful place.
+            </p>
+
+            <div class="hero-buttons">
+
+                <a href="#" class="primary-btn">
+                    Shop Now
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+
+                <a href="#" class="secondary-btn">
+                    Explore Collection
+                </a>
+
+            </div>
+
+            <div class="hero-stats">
+
+                <div>
+                    <strong>10K+</strong>
+                    <small>Happy Customers</small>
+                </div>
+
+                <div class="stat-line"></div>
+
+                <div>
+                    <strong>4.9/5</strong>
+                    <small>Customer Rating</small>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- RIGHT -->
+
+        <div class="hero-visual">
+
+            <div class="floating-card card-top">
+                <i class="fa-solid fa-truck-fast"></i>
+                <div>
+                    <strong>Free Delivery</strong>
+                    <small>On orders over ₹999</small>
+                </div>
+            </div>
+
+            <div class="product-orbit orbit-one"></div>
+            <div class="product-orbit orbit-two"></div>
+
+            <div class="hero-product">
+
+                <div class="discount-badge">
+                    -30%
+                </div>
+
+                <img
+                        src="https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=900&q=85"
+                        alt="Premium Headphones"
+                >
+
+            </div>
+
+            <div class="floating-card card-bottom">
+
+                <div class="mini-icon">
+                    <i class="fa-solid fa-star"></i>
+                </div>
+
+                <div>
+                    <strong>4.9 Rating</strong>
+                    <small>2,400+ Reviews</small>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= CATEGORIES ================= -->
+
+<section class="categories section">
+
+    <div class="section-heading">
+
+        <div>
+            <span class="eyebrow">EXPLORE</span>
+            <h2>Shop by Category</h2>
+        </div>
+
+        <a href="#">
+            View All
+            <i class="fa-solid fa-arrow-right"></i>
+        </a>
+
+    </div>
+
+
+    <div class="category-grid">
+
+        <a href="#" class="category-card category-fashion">
+
+            <div class="category-icon">
+                <i class="fa-solid fa-shirt"></i>
+            </div>
+
+            <div>
+                <h3>Fashion</h3>
+                <p>1,240 Products</p>
+            </div>
+
+            <i class="fa-solid fa-arrow-up-right-from-square category-arrow"></i>
+
+        </a>
+
+
+        <a href="#" class="category-card category-tech">
+
+            <div class="category-icon">
+                <i class="fa-solid fa-laptop"></i>
+            </div>
+
+            <div>
+                <h3>Electronics</h3>
+                <p>850 Products</p>
+            </div>
+
+            <i class="fa-solid fa-arrow-up-right-from-square category-arrow"></i>
+
+        </a>
+
+
+        <a href="#" class="category-card category-home">
+
+            <div class="category-icon">
+                <i class="fa-solid fa-house"></i>
+            </div>
+
+            <div>
+                <h3>Home & Living</h3>
+                <p>620 Products</p>
+            </div>
+
+            <i class="fa-solid fa-arrow-up-right-from-square category-arrow"></i>
+
+        </a>
+
+
+        <a href="#" class="category-card category-beauty">
+
+            <div class="category-icon">
+                <i class="fa-solid fa-sparkles"></i>
+            </div>
+
+            <div>
+                <h3>Beauty</h3>
+                <p>430 Products</p>
+            </div>
+
+            <i class="fa-solid fa-arrow-up-right-from-square category-arrow"></i>
+
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- ================= TRENDING PRODUCTS ================= -->
+
+<section class="products section">
+
+    <div class="section-heading">
+
+        <div>
+            <span class="eyebrow">TRENDING NOW</span>
+            <h2>People Are Loving</h2>
+        </div>
+
+        <a href="#">
+            Shop All
+            <i class="fa-solid fa-arrow-right"></i>
+        </a>
+
+    </div>
+
+
+    <div class="product-grid">
+
+
+        <!-- PRODUCT 1 -->
+
+        <article class="product-card">
+
+            <div class="product-image">
+
+                <span class="product-label">
+                    Bestseller
+                </span>
+
+                <button class="wishlist">
+                    <i class="fa-regular fa-heart"></i>
+                </button>
+
+                <img
+                        src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=700&q=85"
+                        alt="Wireless Headphones"
+                >
+
+                <button class="quick-add">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    Quick Add
+                </button>
+
+            </div>
+
+            <div class="product-info">
+
+                <span class="product-category">
+                    Electronics
+                </span>
+
+                <h3>Premium Wireless Headphones</h3>
+
+                <div class="rating">
+                    <span>★★★★★</span>
+                    <small>(124)</small>
+                </div>
+
+                <div class="price-row">
+
+                    <div>
+                        <strong>₹2,499</strong>
+                        <del>₹3,499</del>
+                    </div>
+
+                    <button class="add-cart">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- PRODUCT 2 -->
+
+        <article class="product-card">
+
+            <div class="product-image">
+
+                <span class="product-label sale">
+                    20% OFF
+                </span>
+
+                <button class="wishlist">
+                    <i class="fa-regular fa-heart"></i>
+                </button>
+
+                <img
+                        src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=700&q=85"
+                        alt="Smart Watch"
+                >
+
+                <button class="quick-add">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    Quick Add
+                </button>
+
+            </div>
+
+            <div class="product-info">
+
+                <span class="product-category">
+                    Accessories
+                </span>
+
+                <h3>Minimal Smart Watch</h3>
+
+                <div class="rating">
+                    <span>★★★★★</span>
+                    <small>(98)</small>
+                </div>
+
+                <div class="price-row">
+
+                    <div>
+                        <strong>₹3,999</strong>
+                        <del>₹4,999</del>
+                    </div>
+
+                    <button class="add-cart">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- PRODUCT 3 -->
+
+        <article class="product-card">
+
+            <div class="product-image">
+
+                <button class="wishlist">
+                    <i class="fa-regular fa-heart"></i>
+                </button>
+
+                <img
+                        src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=700&q=85"
+                        alt="Fashion Product"
+                >
+
+                <button class="quick-add">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    Quick Add
+                </button>
+
+            </div>
+
+            <div class="product-info">
+
+                <span class="product-category">
+                    Fashion
+                </span>
+
+                <h3>Premium Everyday Jacket</h3>
+
+                <div class="rating">
+                    <span>★★★★★</span>
+                    <small>(76)</small>
+                </div>
+
+                <div class="price-row">
+
+                    <div>
+                        <strong>₹2,199</strong>
+                        <del>₹2,999</del>
+                    </div>
+
+                    <button class="add-cart">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- PRODUCT 4 -->
+
+        <article class="product-card">
+
+            <div class="product-image">
+
+                <span class="product-label new">
+                    New
+                </span>
+
+                <button class="wishlist">
+                    <i class="fa-regular fa-heart"></i>
+                </button>
+
+                <img
+                        src="https://images.unsplash.com/photo-1556228578-8c89e6adf883?auto=format&fit=crop&w=700&q=85"
+                        alt="Beauty Product"
+                >
+
+                <button class="quick-add">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    Quick Add
+                </button>
+
+            </div>
+
+            <div class="product-info">
+
+                <span class="product-category">
+                    Beauty
+                </span>
+
+                <h3>Luxury Skincare Set</h3>
+
+                <div class="rating">
+                    <span>★★★★★</span>
+                    <small>(51)</small>
+                </div>
+
+                <div class="price-row">
+
+                    <div>
+                        <strong>₹1,799</strong>
+                        <del>₹2,299</del>
+                    </div>
+
+                    <button class="add-cart">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+
+                </div>
+
+            </div>
+
+        </article>
+
+    </div>
+
+</section>
+
+
+<!-- ================= OFFER ================= -->
+
+<section class="offer-section">
+
+    <div class="offer-container">
+
+        <div class="offer-content">
+
+            <span class="eyebrow">
+                LIMITED TIME OFFER
+            </span>
+
+            <h2>
+                Your Next Favorite
+                <br>
+                Is <span>50% Off.</span>
+            </h2>
+
+            <p>
+                Don't miss out on our handpicked collection.
+                Great products, better prices.
+            </p>
+
+            <a href="#" class="white-btn">
+                Grab the Deal
+                <i class="fa-solid fa-arrow-right"></i>
+            </a>
+
+        </div>
+
+        <div class="offer-decoration">
+
+            <div class="offer-circle"></div>
+
+            <div class="offer-product">
+                <img
+                        src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=700&q=85"
+                        alt="Camera"
+                >
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= BENEFITS ================= -->
+
+<section class="benefits section">
+
+    <div class="benefit">
+
+        <div class="benefit-icon">
+            <i class="fa-solid fa-truck-fast"></i>
+        </div>
+
+        <div>
+            <h3>Fast & Free Delivery</h3>
+            <p>Get your orders delivered quickly.</p>
+        </div>
+
+    </div>
+
+
+    <div class="benefit">
+
+        <div class="benefit-icon">
+            <i class="fa-solid fa-shield-halved"></i>
+        </div>
+
+        <div>
+            <h3>Secure Payments</h3>
+            <p>Your payment is always protected.</p>
+        </div>
+
+    </div>
+
+
+    <div class="benefit">
+
+        <div class="benefit-icon">
+            <i class="fa-solid fa-rotate-left"></i>
+        </div>
+
+        <div>
+            <h3>Easy Returns</h3>
+            <p>Simple and hassle-free returns.</p>
+        </div>
+
+    </div>
+
+
+    <div class="benefit">
+
+        <div class="benefit-icon">
+            <i class="fa-solid fa-headset"></i>
+        </div>
+
+        <div>
+            <h3>24/7 Support</h3>
+            <p>We're always here to help.</p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= NEWSLETTER ================= -->
+
+<section class="newsletter">
+
+    <div class="newsletter-container">
+
+        <div>
+
+            <span class="eyebrow">
+                STAY IN THE LOOP
+            </span>
+
+            <h2>Get the good stuff.</h2>
+
+            <p>
+                New arrivals, exclusive offers and inspiration.
+                Straight to your inbox.
+            </p>
+
+        </div>
+
+
+        <form class="newsletter-form">
+
+            <input
+                    type="email"
+                    placeholder="Enter your email address"
+            >
+
+            <button type="submit">
+                Subscribe
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer class="footer">
+
+    <div class="footer-container">
+
+        <div class="footer-brand">
+
+            <a href="#" class="logo">
+                <span class="logo-icon">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                </span>
+                Nova<span>Cart</span>
+            </a>
+
+            <p>
+                Making online shopping simple,
+                beautiful and enjoyable.
+            </p>
+
+            <div class="socials">
+
+                <a href="#">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+
+                <a href="#">
+                    <i class="fa-brands fa-facebook-f"></i>
+                </a>
+
+                <a href="#">
+                    <i class="fa-brands fa-x-twitter"></i>
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-column">
+
+            <h4>Shop</h4>
+
+            <a href="#">All Products</a>
+            <a href="#">New Arrivals</a>
+            <a href="#">Best Sellers</a>
+            <a href="#">Deals</a>
+
+        </div>
+
+
+        <div class="footer-column">
+
+            <h4>Company</h4>
+
+            <a href="#">About Us</a>
+            <a href="#">Contact</a>
+            <a href="#">Careers</a>
+            <a href="#">Blog</a>
+
+        </div>
+
+
+        <div class="footer-column">
+
+            <h4>Support</h4>
+
+            <a href="#">Help Center</a>
+            <a href="#">Shipping</a>
+            <a href="#">Returns</a>
+            <a href="#">Privacy Policy</a>
+
+        </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+        <p>
+            © 2026 NovaCart. All rights reserved.
+        </p>
+
+        <p>
+            Made with ❤️ for better shopping.
+        </p>
+
+    </div>
+
+</footer>
+
+</body>
+</html>

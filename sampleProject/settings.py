@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'pages'
+    'pages',
+    'backend'
 ]
 
 MIDDLEWARE = [
@@ -87,7 +88,7 @@ WSGI_APPLICATION = 'sampleProject.wsgi.application'
 
 DATABASES = {
     "default": {
-        "ENGINE": "django_tidb",
+        "ENGINE": "django.db.backends.mysql",
         "NAME": os.getenv("MYSQL_DATABASE"),
         "USER": os.getenv("MYSQL_USER"),
         "PASSWORD": os.getenv("MYSQL_PASSWORD"),
@@ -149,4 +150,9 @@ MAILERS = {
 }
 
 
-LOGIN_URL = '/login/'
+AUTHENTICATION_BACKENDS = [
+    'backend.authentication.EmailBackend',
+]
+
+# LOGIN_URL = '/login/'
+LOGIN_URL = '/backend/'

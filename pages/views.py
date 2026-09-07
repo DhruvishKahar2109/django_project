@@ -58,7 +58,7 @@ def login_view(request):
         else:
             print("Login failed")
             return HttpResponse("Invaild credentials")
-    template = loader.get_template('login.html')
+    template = loader.get_template('admin_login.html')
     return HttpResponse(template.render({},request))
 
 def register_view(request):
@@ -116,6 +116,10 @@ def all_users(request):
     return HttpResponse(template.render({
         'all_user': all_user
     },request))
+
+def shop_home(request):
+    template = loader.get_template('shop/home.html')
+    return HttpResponse(template.render({},request))
 
 def logout_view(request):
     logout(request)
