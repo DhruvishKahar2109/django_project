@@ -1,0 +1,100 @@
+{% extends 'shop/layout/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/about.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="about-hero">
+
+    <span>ABOUT NOVA CART</span>
+
+    <h1>
+        Shopping made<br>
+        simple & beautiful.
+    </h1>
+
+    <p>
+        Nova Cart brings quality products, honest prices
+        and a simple shopping experience together.
+    </p>
+
+</section>
+
+
+<section class="about-story">
+
+    <div>
+
+        <span>OUR STORY</span>
+
+        <h2>
+            Built for better shopping.
+        </h2>
+
+    </div>
+
+    <div>
+
+        <p>
+            Nova Cart is an online shopping platform created
+            to make discovering and purchasing products simple.
+        </p>
+
+        <p>
+            From everyday essentials to the latest products,
+            we aim to provide a clean and enjoyable shopping
+            experience.
+        </p>
+
+    </div>
+
+</section>
+
+
+<section class="why-section">
+
+    <div class="why-heading">
+
+        <span>WHY NOVA CART</span>
+
+        <h2>
+            Everything you need.
+        </h2>
+
+    </div>
+
+
+    <div class="why-grid">
+
+        <div class="why-card">
+            <i class="fa-solid fa-box"></i>
+            <h3>Quality Products</h3>
+            <p>Carefully selected products for our customers.</p>
+        </div>
+
+        <div class="why-card">
+            <i class="fa-solid fa-lock"></i>
+            <h3>Secure Shopping</h3>
+            <p>Your shopping experience is safe and secure.</p>
+        </div>
+
+        <div class="why-card">
+            <i class="fa-solid fa-truck"></i>
+            <h3>Fast Delivery</h3>
+            <p>Get your orders delivered quickly.</p>
+        </div>
+
+        <div class="why-card">
+            <i class="fa-solid fa-headset"></i>
+            <h3>Customer Support</h3>
+            <p>We're here whenever you need help.</p>
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

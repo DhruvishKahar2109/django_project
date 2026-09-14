@@ -1,0 +1,301 @@
+{% extends 'shop/layout/base.html' %}
+{% block content %}
+<section class="shop-page">
+
+    <div class="shop-container">
+
+        <!-- Shop Header -->
+        <div class="shop-header">
+
+            <div>
+                <span class="shop-label">OUR COLLECTION</span>
+
+                <h1>Shop</h1>
+
+                <p>
+                    Discover products you'll love.
+                </p>
+            </div>
+
+            <div class="shop-count">
+                {{ products|length }} Products
+            </div>
+
+        </div>
+
+
+        <div class="shop-layout">
+
+
+            <!-- ========================= -->
+            <!-- LEFT SIDEBAR -->
+            <!-- ========================= -->
+
+            <aside class="shop-sidebar">
+
+                <div class="sidebar-box">
+
+                    <h3>Categories</h3>
+
+                    <ul class="category-list">
+
+                        <!-- All Products -->
+                        <li>
+                            <a
+                                    href="{% url 'shop_list' %}"
+                                    class="{% if not selected_category %}active{% endif %}">
+
+                                <span>All Products</span>
+                                <span>→</span>
+
+                            </a>
+                        </li>
+
+
+                        {% for category in categories %}
+
+                        <li>
+
+                            <a
+                                    href="{% url 'shop_list' %}?category={{ category.id }}"
+                                    class="{% if selected_category == category.id|stringformat:'s' %}active{% endif %}">
+
+            <span>
+                {{ category.name }}
+            </span>
+
+                                <span>→</span>
+
+                            </a>
+
+                        </li>
+
+                        {% endfor %}
+
+                    </ul>
+
+                </div>
+
+            </aside>
+
+
+            <!-- ========================= -->
+            <!-- RIGHT PRODUCTS -->
+            <!-- ========================= -->
+
+            <main class="shop-products">
+
+
+                <!-- Search / Filter -->
+
+                <div class="shop-toolbar">
+
+                    <form class="shop-search" method="GET">
+
+                        {% if selected_category %}
+                        <input
+                                name="category"
+                                type="hidden"
+                                value="{{ selected_category }}">
+                        {% endif %}
+
+                        <input
+                                name="search"
+                                placeholder="Search products..."
+                                type="text"
+                                value="{{ search|default:'' }}">
+
+                        <button type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>
+
+                        <select
+                                name="sort"
+                                class="sort-select"
+                                onchange="this.form.submit()">
+
+                            <option value="">
+                                Sort By
+                            </option>
+
+                            <option
+                                    value="price_low"
+                                    {% if sort == "price_low" %}selected{% endif %}>
+                            Price: Low to High
+                            </option>
+
+                            <option
+                                    value="price_high"
+                                    {% if sort == "price_high" %}selected{% endif %}>
+                            Price: High to Low
+                            </option>
+
+                            <option
+                                    value="name"
+                                    {% if sort == "name" %}selected{% endif %}>
+                            Name
+                            </option>
+
+                        </select>
+
+                    </form>
+
+
+                    <!-- Sort -->
+
+                    <form method="GET">
+
+                        {% if selected_category %}
+                        <input
+                                name="category"
+                                type="hidden"
+                                value="{{ selected_category }}">
+                        {% endif %}
+
+                        {% if search %}
+                        <input
+                                name="search"
+                                type="hidden"
+                                value="{{ search }}">
+                        {% endif %}
+
+                    </form>
+
+                </div>
+
+
+                <!-- Products -->
+
+                <div class="products-grid">
+
+                    {% for product in products %}
+
+
+                        <a class="shop-product-card" href="{% url 'shop_details' product.slug %}">
+
+
+                        <!-- Image -->
+
+                        <div class="shop-product-image">
+
+                            {% if product.image %}
+
+                            <img
+                                    alt="{{ product.name }}"
+                                    src="{{ product.image.url }}">
+
+                            {% else %}
+
+                            <div class="no-product-image">
+                                No Image
+                            </div>
+
+                            {% endif %}
+
+
+                            {% if product.stock > 0 %}
+
+                            <span class="product-badge">
+                                    IN STOCK
+                                </span>
+
+                            {% else %}
+
+                            <span class="product-badge out-stock">
+                                    SOLD OUT
+                                </span>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- Details -->
+
+                        <div class="shop-product-info">
+
+                            <span class="shop-product-category">
+                                {{ product.category.name }}
+                            </span>
+
+                            <h3>
+                                {{ product.name }}
+                            </h3>
+
+                            {% if product.description %}
+
+                            <p>
+                                {{ product.description|truncatewords:8 }}
+                            </p>
+
+                            {% endif %}
+
+
+                            <div class="shop-product-bottom">
+
+                                <strong>
+                                    ₹{{ product.price }}
+                                </strong>
+
+
+                                {% if product.stock > 0 %}
+
+                                <button
+                                        class="add-cart"
+                                        type="button">
+
+                                    <i class="fas fa-plus"></i>
+
+                                </button>
+
+                                {% else %}
+
+                                <button
+                                        class="add-cart disabled"
+                                        disabled
+                                        type="button">
+
+                                    <i class="fas fa-ban"></i>
+
+                                </button>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+                    </a>
+
+                    {% empty %}
+
+                    <div class="no-products">
+
+                        <i class="fas fa-box-open"></i>
+
+                        <h3>
+                            No Products Found
+                        </h3>
+
+                        <p>
+                            Try another category or search term.
+                        </p>
+
+                        <a href="{% url 'shop_list' %}">
+                            View All Products
+                        </a>
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+            </main>
+
+        </div>
+
+    </div>
+
+</section>
+{%endblock%}

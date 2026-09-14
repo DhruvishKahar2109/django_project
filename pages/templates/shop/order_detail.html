@@ -1,0 +1,471 @@
+{% extends 'shop/layout/base.html' %}
+
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/order_detail.css' %}">
+{% endblock %}
+
+
+{% block content %}
+
+<section class="order-detail-page">
+
+    <div class="order-detail-container">
+
+
+        <!-- ================= BREADCRUMB ================= -->
+
+        <div class="order-detail-breadcrumb">
+
+            <a href="{% url 'shop_home' %}">
+                Home
+            </a>
+
+            <span>/</span>
+
+            <a href="{% url 'my_orders' %}">
+                My Orders
+            </a>
+
+            <span>/</span>
+
+            <span>
+                Order Details
+            </span>
+
+        </div>
+
+
+        <!-- ================= HEADER ================= -->
+
+        <div class="order-detail-header">
+
+            <div>
+
+                <span class="order-detail-label">
+                    ORDER DETAILS
+                </span>
+
+                <h1>
+                    Order Details
+                </h1>
+
+                <p>
+                    Review your order information and items.
+                </p>
+
+            </div>
+
+
+            <!-- STATUS -->
+
+            <div class="order-detail-status">
+
+                {% if order.status == "confirmed" %}
+
+                <span class="status-badge confirmed">
+                        <i class="fa-solid fa-check"></i>
+                        Confirmed
+                    </span>
+
+                {% elif order.status == "delivered" %}
+
+                <span class="status-badge delivered">
+                        <i class="fa-solid fa-check"></i>
+                        Delivered
+                    </span>
+
+                {% elif order.status == "cancelled" %}
+
+                <span class="status-badge cancelled">
+                        <i class="fa-solid fa-xmark"></i>
+                        Cancelled
+                    </span>
+
+                {% elif order.status == "shipped" %}
+
+                <span class="status-badge shipped">
+                        <i class="fa-solid fa-truck"></i>
+                        Shipped
+                    </span>
+
+                {% elif order.status == "processing" %}
+
+                <span class="status-badge processing">
+                        <i class="fa-solid fa-box"></i>
+                        Processing
+                    </span>
+
+                {% else %}
+
+                <span class="status-badge pending">
+                        <i class="fa-solid fa-clock"></i>
+                        {{ order.status|title }}
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= ORDER META ================= -->
+
+        <div class="order-meta-card">
+
+            <div class="order-meta-item">
+
+                <span>
+                    ORDER NUMBER
+                </span>
+
+                <strong>
+                    #{{ order.order_number }}
+                </strong>
+
+            </div>
+
+
+            <div class="order-meta-item">
+
+                <span>
+                    ORDER DATE
+                </span>
+
+                <strong>
+                    {{ order.created_at|date:"d-m-Y" }}
+                </strong>
+
+            </div>
+
+
+            <div class="order-meta-item">
+
+                <span>
+                    PAYMENT METHOD
+                </span>
+
+                <strong>
+                    {% if order.payment_method == "cod" %}
+                    Cash on Delivery
+                    {% else %}
+                    {{ order.payment_method|title }}
+                    {% endif %}
+                </strong>
+
+            </div>
+
+
+            <div class="order-meta-item">
+
+                <span>
+                    ORDER STATUS
+                </span>
+
+                <strong>
+                    {{ order.status|title }}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= MAIN GRID ================= -->
+
+        <div class="order-detail-grid">
+
+
+            <!-- ================= LEFT ================= -->
+
+            <div class="order-detail-left">
+
+
+                <!-- ================= ORDER ITEMS ================= -->
+
+                <div class="order-detail-card">
+
+                    <div class="order-detail-card-header">
+
+                        <div>
+
+                            <span>
+                                YOUR ITEMS
+                            </span>
+
+                            <h2>
+                                Order Items
+                            </h2>
+
+                        </div>
+
+                        <span class="item-count">
+                            {{ order.items.all|length }}
+                            {% if order.items.all|length == 1 %}
+                                Item
+                            {% else %}
+                                Items
+                            {% endif %}
+                        </span>
+
+                    </div>
+
+
+                    <div class="detail-products">
+
+                        {% for item in order.items.all %}
+
+                        <div class="detail-product">
+
+
+                            <!-- PRODUCT IMAGE -->
+
+                            <div class="detail-product-image">
+
+                                {% if item.product and item.product.image %}
+
+                                <img
+                                        src="{{ item.product.image.url }}"
+                                        alt="{{ item.product_name }}"
+                                >
+
+                                {% else %}
+
+                                <i class="fa-regular fa-image"></i>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <!-- PRODUCT INFO -->
+
+                            <div class="detail-product-info">
+
+                                <h3>
+                                    {{ item.product_name }}
+                                </h3>
+
+                                <span>
+                                        ₹{{ item.product_price|floatformat:2 }}
+                                        ×
+                                        {{ item.quantity }}
+                                    </span>
+
+                            </div>
+
+
+                            <!-- ITEM TOTAL -->
+
+                            <strong class="detail-product-total">
+
+                                ₹{{ item.subtotal|floatformat:2 }}
+
+                            </strong>
+
+                        </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+
+                <!-- ================= SHIPPING ADDRESS ================= -->
+
+                <div class="order-detail-card">
+
+                    <div class="order-detail-card-header">
+
+                        <div>
+
+                            <span>
+                                DELIVERY
+                            </span>
+
+                            <h2>
+                                Shipping Address
+                            </h2>
+
+                        </div>
+
+                        <i class="fa-solid fa-location-dot card-header-icon"></i>
+
+                    </div>
+
+
+                    <div class="shipping-address">
+
+                        <strong>
+                            {{ order.first_name }}
+                            {{ order.last_name }}
+                        </strong>
+
+                        <p>
+                            {{ order.address }}
+                        </p>
+
+                        <p>
+                            {{ order.city }},
+                            {{ order.state }}
+                            - {{ order.pincode }}
+                        </p>
+
+                        <p>
+                            {{ order.country }}
+                        </p>
+
+                        {% if order.landmark %}
+
+                        <p>
+                            <span>Landmark:</span>
+                            {{ order.landmark }}
+                        </p>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= RIGHT ================= -->
+
+            <div class="order-detail-right">
+
+
+                <!-- ================= SUMMARY ================= -->
+
+                <div class="order-summary-card">
+
+                    <div class="order-summary-heading">
+
+                        <span>
+                            ORDER SUMMARY
+                        </span>
+
+                        <h2>
+                            Payment Summary
+                        </h2>
+
+                    </div>
+
+
+                    <div class="summary-row">
+
+                        <span>
+                            Subtotal
+                        </span>
+
+                        <strong>
+                            ₹{{ order.subtotal|floatformat:2 }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="summary-row">
+
+                        <span>
+                            Delivery
+                        </span>
+
+                        <strong class="free">
+                            FREE
+                        </strong>
+
+                    </div>
+
+
+                    <div class="summary-divider"></div>
+
+
+                    <div class="summary-total">
+
+                        <span>
+                            Total
+                        </span>
+
+                        <strong>
+                            ₹{{ order.total|floatformat:2 }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="payment-method-box">
+
+                        <div class="payment-method-icon">
+
+                            <i class="fa-solid fa-money-bill-wave"></i>
+
+                        </div>
+
+                        <div>
+
+                            <span>
+                                PAYMENT METHOD
+                            </span>
+
+                            <strong>
+                                {% if order.payment_method == "cod" %}
+                                Cash on Delivery
+                                {% else %}
+                                {{ order.payment_method|title }}
+                                {% endif %}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ================= SECURITY ================= -->
+
+                <div class="order-security">
+
+                    <i class="fa-solid fa-shield-halved"></i>
+
+                    <div>
+
+                        <strong>
+                            Secure Order
+                        </strong>
+
+                        <span>
+                            Your order information is safe and protected.
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ================= BACK BUTTON ================= -->
+
+                <a
+                        href="{% url 'my_orders' %}"
+                        class="back-orders-btn">
+
+                    <i class="fa-solid fa-arrow-left"></i>
+
+                    Back to My Orders
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

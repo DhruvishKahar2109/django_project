@@ -1,0 +1,599 @@
+/* =========================================================
+   NOVA CART — ORDER SUCCESS
+========================================================= */
+
+.order-success-page {
+    width: 100%;
+
+    padding: 70px 0 100px;
+
+    background: #ffffff;
+}
+
+.order-success-container {
+    width: min(760px, calc(100% - 40px));
+
+    margin: 0 auto;
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   SUCCESS ICON
+========================================================= */
+
+.success-icon-wrapper {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 25px;
+}
+
+.success-icon {
+    width: 74px;
+    height: 74px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #eaf8ef;
+
+    color: #159447;
+
+    font-size: 27px;
+
+    box-shadow:
+            0 0 0 10px #f5fcf7;
+}
+
+
+/* =========================================================
+   SUCCESS MESSAGE
+========================================================= */
+
+.success-label {
+    display: block;
+
+    margin-bottom: 10px;
+
+    color: #159447;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+}
+
+.success-message h1 {
+    margin: 0;
+
+    color: #111111;
+
+    font-size: 38px;
+
+    font-weight: 700;
+
+    line-height: 1.15;
+
+    letter-spacing: -1.2px;
+}
+
+.success-message p {
+    max-width: 520px;
+
+    margin: 14px auto 38px;
+
+    color: #777777;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   ORDER CARD
+========================================================= */
+
+.order-confirmation-card {
+    padding: 27px;
+
+    text-align: left;
+
+    background: #ffffff;
+
+    border: 1px solid #e8e8e8;
+
+    border-radius: 16px;
+
+    box-shadow:
+            0 12px 40px rgba(0, 0, 0, 0.05);
+}
+
+
+/* =========================================================
+   CARD HEADER
+========================================================= */
+
+.order-card-header {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+}
+
+.order-small-label {
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: #ff4b3e;
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+}
+
+.order-card-header h2 {
+    margin: 0;
+
+    color: #111111;
+
+    font-size: 18px;
+
+    font-weight: 700;
+}
+
+.order-status {
+    padding: 7px 11px;
+
+    border-radius: 20px;
+
+    background: #eaf8ef;
+
+    color: #159447;
+
+    font-size: 10px;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   DIVIDER
+========================================================= */
+
+.order-card-divider {
+    width: 100%;
+
+    height: 1px;
+
+    margin: 22px 0;
+
+    background: #eeeeee;
+}
+
+
+/* =========================================================
+   ORDER INFO
+========================================================= */
+
+.order-info-grid {
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr 1fr 1fr;
+
+    gap: 15px;
+}
+
+.order-info-item {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 6px;
+}
+
+.order-info-item span {
+    color: #999999;
+
+    font-size: 10px;
+}
+
+.order-info-item strong {
+    color: #222222;
+
+    font-size: 12px;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   DELIVERY
+========================================================= */
+
+.delivery-section {
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+}
+
+.delivery-icon {
+    width: 44px;
+    height: 44px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+
+    background: #fff0ee;
+
+    color: #ff4b3e;
+
+    font-size: 16px;
+}
+
+.delivery-title {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: #999999;
+
+    font-size: 10px;
+}
+
+.delivery-section strong {
+    display: block;
+
+    margin-bottom: 3px;
+
+    color: #222222;
+
+    font-size: 12px;
+}
+
+.delivery-section p {
+    margin: 0;
+
+    color: #777777;
+
+    font-size: 11px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   PRODUCTS
+========================================================= */
+
+.ordered-products h3 {
+    margin: 0 0 16px;
+
+    color: #222222;
+
+    font-size: 14px;
+
+    font-weight: 700;
+}
+
+.ordered-product {
+    display: grid;
+
+    grid-template-columns: 60px 1fr auto;
+
+    gap: 12px;
+
+    align-items: center;
+
+    padding: 10px 0;
+
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.ordered-product:last-child {
+    border-bottom: 0;
+
+    padding-bottom: 0;
+}
+
+.ordered-product-image {
+    width: 60px;
+    height: 60px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    border-radius: 9px;
+
+    background: #f7f7f7;
+}
+
+.ordered-product-image img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+}
+
+.ordered-product-image i {
+    color: #bbbbbb;
+
+    font-size: 20px;
+}
+
+.ordered-product-info {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 5px;
+}
+
+.ordered-product-info strong {
+    color: #222222;
+
+    font-size: 12px;
+
+    font-weight: 600;
+}
+
+.ordered-product-info span {
+    color: #999999;
+
+    font-size: 10px;
+}
+
+.ordered-product-price {
+    color: #222222;
+
+    font-size: 12px;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   ACTION BUTTONS
+========================================================= */
+
+.success-actions {
+    display: flex;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    margin-top: 27px;
+}
+
+.success-actions a {
+    height: 46px;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 9px;
+
+    padding: 0 19px;
+
+    border-radius: 8px;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    text-decoration: none;
+
+    transition:
+            background 0.2s ease,
+            color 0.2s ease,
+            transform 0.2s ease;
+}
+
+
+/* Continue */
+
+.continue-shopping-btn {
+    border: 1px solid #dddddd;
+
+    background: #ffffff;
+
+    color: #333333;
+}
+
+.continue-shopping-btn:hover {
+    border-color: #111111;
+
+    background: #111111;
+
+    color: #ffffff;
+
+    transform: translateY(-2px);
+}
+
+
+/* My Orders */
+
+.view-orders-btn {
+    border: 1px solid #111111;
+
+    background: #111111;
+
+    color: #ffffff;
+}
+
+.view-orders-btn:hover {
+    background: #ff4b3e;
+
+    border-color: #ff4b3e;
+
+    transform: translateY(-2px);
+}
+
+.view-orders-btn i {
+    transition: transform 0.2s ease;
+}
+
+.view-orders-btn:hover i {
+    transform: translateX(4px);
+}
+
+
+/* =========================================================
+   HELP
+========================================================= */
+
+.success-help {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 6px;
+
+    margin-top: 25px;
+
+    color: #999999;
+
+    font-size: 10px;
+}
+
+.success-help i {
+    font-size: 11px;
+}
+
+.success-help a {
+    color: #555555;
+
+    font-weight: 600;
+
+    text-decoration: underline;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .order-success-page {
+        padding: 50px 0 70px;
+    }
+
+    .order-success-container {
+        width: calc(100% - 28px);
+    }
+
+    .success-message h1 {
+        font-size: 32px;
+    }
+
+    .success-message p {
+        font-size: 13px;
+
+        margin-bottom: 30px;
+    }
+
+    .order-confirmation-card {
+        padding: 20px;
+    }
+
+    .order-info-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+    .success-icon {
+        width: 64px;
+        height: 64px;
+
+        font-size: 23px;
+    }
+
+    .success-message h1 {
+        font-size: 27px;
+    }
+
+    .success-message p {
+        font-size: 12px;
+    }
+
+    .order-card-header {
+        align-items: flex-start;
+
+        gap: 10px;
+    }
+
+    .order-status {
+        font-size: 9px;
+
+        padding: 6px 9px;
+    }
+
+    .order-info-grid {
+        grid-template-columns: 1fr 1fr;
+
+        gap: 18px 10px;
+    }
+
+    .delivery-section {
+        align-items: flex-start;
+    }
+
+    .success-actions {
+        flex-direction: column;
+
+        width: 100%;
+    }
+
+    .success-actions a {
+        width: 100%;
+
+        box-sizing: border-box;
+    }
+
+    .success-help {
+        flex-wrap: wrap;
+
+        line-height: 1.5;
+    }
+
+}

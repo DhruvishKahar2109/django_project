@@ -1,0 +1,621 @@
+{% extends 'shop/layout/base.html' %}
+
+{% load static %}
+
+{% block extra_css %}
+<link href="{% static 'css/product_detail.css' %}" rel="stylesheet">
+{% endblock %}
+
+
+{% block content %}
+
+<section class="product-detail-page">
+
+    <div class="product-detail-container">
+
+        <!-- ================= BREADCRUMB ================= -->
+
+        <div class="product-breadcrumb">
+
+            <a href="{% url 'shop_home' %}">
+                Home
+            </a>
+
+            <span>/</span>
+
+            <a href="{% url 'shop_list' %}">
+                Shop
+            </a>
+
+            <span>/</span>
+
+            <span>{{ product.name }}</span>
+
+        </div>
+
+
+        <!-- ================= PRODUCT DETAIL ================= -->
+
+        <div class="product-detail">
+
+
+            <!-- ================= IMAGE ================= -->
+
+            <div class="product-detail-left">
+
+                {% if product.image %}
+
+                <div class="product-image-wrapper">
+
+                    <!-- Main Image -->
+
+                    <div class="product-main-image"
+                         id="productImageBox">
+
+                        <img
+                                alt="{{ product.name }}"
+                                id="productImage"
+                                src="{{ product.image.url }}">
+
+
+                        <!-- Stock Badge -->
+
+                        {% if product.stock > 0 %}
+
+                        <span class="detail-stock-badge">
+                            IN STOCK
+                        </span>
+
+                        {% else %}
+
+                        <span class="detail-stock-badge sold-out">
+                            SOLD OUT
+                        </span>
+
+                        {% endif %}
+
+
+                        <!-- Magnifying Lens -->
+
+                        <div class="zoom-lens"
+                             id="zoomLens">
+                        </div>
+
+                    </div>
+
+
+                    <!-- ================= ZOOM PREVIEW ================= -->
+
+                    <div class="zoom-preview"
+                         id="zoomPreview">
+
+                        <div class="zoom-preview-image"
+                             id="zoomPreviewImage">
+                        </div>
+
+                        <div class="zoom-label">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            Hover to explore
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% else %}
+
+                <!-- No Image -->
+
+                <div class="product-main-image detail-no-image">
+
+                    <i class="fa-regular fa-image"></i>
+
+                    <span>
+                        No Image Available
+                    </span>
+
+                </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- ================= INFORMATION ================= -->
+
+            <div class="product-detail-right">
+
+                <span class="product-detail-category">
+                    {{ product.category.name }}
+                </span>
+
+
+                <h1>
+                    {{ product.name }}
+                </h1>
+
+
+                <div class="product-price">
+                    ₹{{ product.price }}
+                </div>
+
+
+                {% if product.description %}
+
+                <p class="product-description">
+                    {{ product.description }}
+                </p>
+
+                {% endif %}
+
+
+                <div class="product-divider"></div>
+
+
+                <!-- ================= STOCK ================= -->
+
+                {% if product.stock > 0 %}
+
+                <div class="stock-info">
+
+                    <i class="fa-solid fa-circle-check"></i>
+
+                    <span>
+                        {{ product.stock }} items available
+                    </span>
+
+                </div>
+
+                {% else %}
+
+                <div class="stock-info out">
+
+                    <i class="fa-solid fa-circle-xmark"></i>
+
+                    <span>
+                        Currently out of stock
+                    </span>
+
+                </div>
+
+                {% endif %}
+
+
+                <!-- ================= QUANTITY ================= -->
+
+                {% if product.stock > 0 %}
+                <form action="{% url 'add_to_cart' product.slug %}" method="POST">
+                    {% csrf_token %}
+                    <div class="quantity-section">
+
+                        <label>
+                            Quantity
+                        </label>
+
+                        <div class="quantity-control">
+
+                            <button
+                                    onclick="decreaseQuantity()"
+                                    type="button">
+
+                                −
+
+                            </button>
+
+
+                            <input
+                                    id="quantity"
+                                    name="quantity"
+                                    readonly
+                                    type="text"
+                                    value="1">
+
+
+                            <button
+                                    onclick="increaseQuantity()"
+                                    type="button">
+
+                                +
+
+                            </button>
+
+                        </div>
+                    </div>
+
+
+                    <!-- ================= BUTTONS ================= -->
+
+                    <div class="product-actions">
+                        <button class="add-to-cart-btn"
+                                type="submit">
+
+                            <i class="fa-solid fa-bag-shopping"></i>
+
+                            Add to Cart
+
+                        </button>
+
+
+                        <a href="{% url 'cart_list' %}"
+                                class="buy-now-btn"
+                                type="button">
+
+                            Buy Now
+
+                            <i class="fa-solid fa-arrow-right"></i>
+
+                        </a>
+
+                    </div>
+                </form>
+
+                {% endif %}
+
+
+                <!-- ================= BENEFITS ================= -->
+
+                <div class="product-benefits">
+
+                    <div class="benefit-item">
+
+                        <div class="benefit-icon">
+
+                            <i class="fa-solid fa-truck-fast"></i>
+
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Fast Delivery
+                            </strong>
+
+                            <span>
+                                Delivered quickly to your door
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="benefit-item">
+
+                        <div class="benefit-icon">
+
+                            <i class="fa-solid fa-shield-halved"></i>
+
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Secure Payment
+                            </strong>
+
+                            <span>
+                                100% secure payment
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="benefit-item">
+
+                        <div class="benefit-icon">
+
+                            <i class="fa-solid fa-rotate-left"></i>
+
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Easy Returns
+                            </strong>
+
+                            <span>
+                                Simple and hassle-free returns
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     QUANTITY JAVASCRIPT
+===================================================== -->
+
+<script>
+
+    const quantityInput = document.getElementById("quantity");
+
+
+    function increaseQuantity() {
+
+        if (!quantityInput) {
+            return;
+        }
+
+        let quantity = parseInt(quantityInput.value);
+
+
+        {% if product.stock > 0 %}
+
+        if (quantity < {{ product.stock }})
+        {
+
+            quantityInput.value = quantity + 1;
+
+        }
+
+        {% endif %}
+    }
+
+
+    function decreaseQuantity() {
+
+        if (!quantityInput) {
+            return;
+        }
+
+        let quantity = parseInt(quantityInput.value);
+
+
+        if (quantity > 1) {
+
+            quantityInput.value = quantity - 1;
+
+        }
+
+    }
+
+</script>
+
+
+<!-- =====================================================
+     PREMIUM PRODUCT IMAGE ZOOM
+===================================================== -->
+
+{% if product.image %}
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const imageBox = document.getElementById("productImageBox");
+        const productImage = document.getElementById("productImage");
+        const zoomLens = document.getElementById("zoomLens");
+        const zoomPreview = document.getElementById("zoomPreview");
+        const zoomPreviewImage = document.getElementById("zoomPreviewImage");
+
+
+        /* ==========================================
+           CONFIGURATION
+        ========================================== */
+
+        const ZOOM_LEVEL = 2.5;
+        const LENS_SIZE = 150;
+
+
+        /* ==========================================
+           SET ZOOM IMAGE
+        ========================================== */
+
+        function setupZoom() {
+
+            if (!productImage || !imageBox) {
+                return;
+            }
+
+
+            const width = imageBox.offsetWidth;
+            const height = imageBox.offsetHeight;
+
+
+            zoomPreviewImage.style.backgroundImage =
+                `url("${productImage.src}")`;
+
+
+            zoomPreviewImage.style.backgroundSize =
+                `${width * ZOOM_LEVEL}px ${height * ZOOM_LEVEL}px`;
+
+        }
+
+
+        productImage.addEventListener("load", setupZoom);
+
+        setupZoom();
+
+
+        /* ==========================================
+           MOUSE ENTER
+        ========================================== */
+
+        imageBox.addEventListener("mouseenter", function () {
+
+            if (window.innerWidth <= 900) {
+                return;
+            }
+
+
+            setupZoom();
+
+
+            zoomLens.style.display = "block";
+
+            zoomPreview.classList.add("active");
+
+        });
+
+
+        /* ==========================================
+           MOUSE MOVE
+        ========================================== */
+
+        imageBox.addEventListener("mousemove", function (event) {
+
+            if (window.innerWidth <= 900) {
+                return;
+            }
+
+
+            const rect = imageBox.getBoundingClientRect();
+
+
+            let x = event.clientX - rect.left;
+            let y = event.clientY - rect.top;
+
+
+            /* ======================================
+               LENS POSITION
+            ====================================== */
+
+            let lensX = x - (LENS_SIZE / 2);
+            let lensY = y - (LENS_SIZE / 2);
+
+
+            /* Keep lens inside image */
+
+            lensX = Math.max(
+                0,
+                Math.min(
+                    lensX,
+                    rect.width - LENS_SIZE
+                )
+            );
+
+
+            lensY = Math.max(
+                0,
+                Math.min(
+                    lensY,
+                    rect.height - LENS_SIZE
+                )
+            );
+
+
+            zoomLens.style.left =
+                lensX + "px";
+
+
+            zoomLens.style.top =
+                lensY + "px";
+
+
+            /* ======================================
+               ZOOM IMAGE POSITION
+            ====================================== */
+
+            const percentX =
+                (x / rect.width) * 100;
+
+
+            const percentY =
+                (y / rect.height) * 100;
+
+
+            zoomPreviewImage.style.backgroundPosition =
+                `${percentX}% ${percentY}%`;
+
+        });
+
+
+        /* ==========================================
+           MOUSE LEAVE
+        ========================================== */
+
+        imageBox.addEventListener("mouseleave", function () {
+
+            zoomLens.style.display = "none";
+
+            zoomPreview.classList.remove("active");
+
+        });
+
+
+        /* ==========================================
+           RESIZE
+        ========================================== */
+
+        window.addEventListener("resize", function () {
+
+            setupZoom();
+
+
+            if (window.innerWidth <= 900) {
+
+                zoomLens.style.display = "none";
+
+                zoomPreview.classList.remove("active");
+
+            }
+
+        });
+
+    });
+
+</script>
+
+<!-- =====================================================
+     QUANTITY JAVASCRIPT
+===================================================== -->
+
+<script>
+
+    const quantityInput = document.getElementById("quantity");
+
+    const maxStock = {{ product.stock|default:0 }};
+
+
+    function increaseQuantity() {
+
+        if (!quantityInput) {
+            return;
+        }
+
+        let quantity = parseInt(quantityInput.value) || 1;
+
+        if (quantity < maxStock) {
+
+            quantityInput.value = quantity + 1;
+
+        }
+
+    }
+
+
+    function decreaseQuantity() {
+
+        if (!quantityInput) {
+            return;
+        }
+
+        let quantity = parseInt(quantityInput.value) || 1;
+
+        if (quantity > 1) {
+
+            quantityInput.value = quantity - 1;
+
+        }
+
+    }
+
+</script>
+
+{% endif %}
+
+{% endblock %}

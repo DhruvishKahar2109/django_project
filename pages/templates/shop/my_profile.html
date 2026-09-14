@@ -1,0 +1,261 @@
+{% extends 'shop/layout/base.html' %}
+
+{% load static %}
+
+
+{% block extra_css %}
+
+<link rel="stylesheet"
+      href="{% static 'css/profile.css' %}">
+
+{% endblock %}
+
+
+{% block content %}
+
+<section class="profile-page">
+
+    <div class="profile-container">
+
+
+        <!-- ================= BREADCRUMB ================= -->
+
+        <div class="profile-breadcrumb">
+
+            <a href="{% url 'shop_home' %}">
+                Home
+            </a>
+
+            <span>/</span>
+
+            <span>
+                My Profile
+            </span>
+
+        </div>
+
+
+        <!-- ================= HEADER ================= -->
+
+        <div class="profile-heading">
+
+            <span class="profile-eyebrow">
+                MY ACCOUNT
+            </span>
+
+            <h1>
+                My Profile
+            </h1>
+
+            <p>
+                Manage your account information and personal details.
+            </p>
+
+        </div>
+
+
+        <!-- ================= PROFILE CONTENT ================= -->
+
+        <div class="profile-layout">
+
+
+            <!-- ================= SIDEBAR ================= -->
+
+            <div class="profile-sidebar">
+
+                <div class="profile-user">
+
+                    <div class="profile-avatar">
+
+                        <i class="fa-solid fa-user"></i>
+
+                    </div>
+
+                    <h3>
+                        {{ request.session.customer_name }}
+                    </h3>
+
+                    <span>
+                        Customer Account
+                    </span>
+
+                </div>
+
+
+                <div class="profile-menu">
+
+                    <a href="{% url 'my_profile' %}"
+                       class="profile-menu-item active">
+
+                        <i class="fa-regular fa-user"></i>
+
+                        <span>
+                            Personal Information
+                        </span>
+
+                    </a>
+
+
+                    <a href="{% url 'my_orders' %}"
+                       class="profile-menu-item">
+
+                        <i class="fa-solid fa-box"></i>
+
+                        <span>
+                            My Orders
+                        </span>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= FORM ================= -->
+
+            <div class="profile-card">
+
+                <div class="profile-card-header">
+
+                    <div>
+
+                        <span>
+                            ACCOUNT DETAILS
+                        </span>
+
+                        <h2>
+                            Personal Information
+                        </h2>
+
+                        <p>
+                            Update your personal information below.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <form method="POST" action="{%  url 'my_profile' %}">
+
+                    {% csrf_token %}
+
+
+                    <div class="profile-form-grid">
+
+
+                        <!-- FIRST NAME -->
+
+                        <div class="profile-field">
+
+                            <label>
+                                First Name
+                            </label>
+
+                            <input
+                                    type="text"
+                                    name="first_name"
+                                    value="{{ customer.first_name }}"
+                                    placeholder="Enter first name"
+                                    required>
+
+                        </div>
+
+
+                        <!-- LAST NAME -->
+
+                        <div class="profile-field">
+
+                            <label>
+                                Last Name
+                            </label>
+
+                            <input
+                                    type="text"
+                                    name="last_name"
+                                    value="{{ customer.last_name }}"
+                                    placeholder="Enter last name">
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- EMAIL -->
+
+                    <div class="profile-field">
+
+                        <label>
+                            Email Address
+                        </label>
+
+                        <input
+                                type="email"
+                                name="email"
+                                value="{{ customer.email }}"
+                                placeholder="Enter email address"
+                                required>
+
+                    </div>
+
+
+                    <!-- PHONE -->
+
+                    <div class="profile-field">
+
+                        <label>
+                            Phone Number
+                        </label>
+
+                        <input
+                                type="text"
+                                name="phone"
+                                value="{{ customer.phone }}"
+                                placeholder="Enter phone number">
+
+                    </div>
+
+
+                    <!-- ADDRESS -->
+
+                    <div class="profile-field">
+
+                        <label>
+                            Address
+                        </label>
+
+                        <textarea
+                                name="address"
+                                placeholder="Enter your address">{{ customer.address }}</textarea>
+
+                    </div>
+
+
+                    <!-- SAVE -->
+
+                    <div class="profile-actions">
+
+                        <button
+                                type="submit"
+                                class="save-profile-btn">
+
+                            <i class="fa-solid fa-check"></i>
+
+                            Save Changes
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

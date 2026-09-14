@@ -1,0 +1,868 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+{%block page_css%}
+<link href="{% static 'backend/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+<link href="{% static 'backend/plugins/datatables-responsive/css/responsive.bootstrap4.min.css' %}" rel="stylesheet">
+<link href="{% static 'backend/plugins/datatables-buttons/css/buttons.bootstrap4.min.css' %}" rel="stylesheet">
+{%endblock%}
+{% block content %}
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Dashboard</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Dashboard v1</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div>
+    </div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">All Customers</h3>
+                            <button class="btn btn-primary btn-sm float-right"
+                                    data-target="#addCustomerModal"
+                                    data-toggle="modal"
+                                    type="button">
+                                Add +
+                            </button>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table class="table table-bordered table-striped" id="example1">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Full Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Address</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% if customers%}
+                                {% for customer in customers %}
+                                <tr>
+                                    <td>{{ customer.id }}</td>
+                                    <td>{{ customer.first_name }}</td>
+                                    <td>{{ customer.email }}</td>
+                                    <td>{{ customer.phone|default:"-" }}</td>
+                                    <td>
+                                        {% if customer.address %}{{ customer.address }}{% endif %}
+                                        {% if customer.city %}, {{ customer.city }}{% endif %}
+                                        {% if customer.state %}, {{ customer.state }}{% endif %}
+                                        {% if customer.pincode %}, {{ customer.pincode }}{% endif %}
+                                        {% if customer.country %}, {{ customer.country }}{% endif %}
+
+                                        {% if not customer.address and not customer.city and not customer.state and not customer.pincode and not customer.country %}
+                                        -
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if customer.is_active %}
+                                        <span class="badge badge-success">Active</span>
+                                        {% else %}
+                                        <span class="badge badge-danger">Inactive</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <button
+                                            class="btn btn-danger btn-sm"
+                                            onclick="deleteCustomer(
+                                                                    {{ customer.id }},
+                                                                    '{% url 'customer_delete' customer.id %}',
+                                                                    '{{ customer.username|escapejs }}'
+                                                                )"
+                                            type="button">
+                                        <i class="fas fa-trash"></i>
+                                        </button>
+                                        <button
+                                                class="btn btn-warning btn-sm"
+                                                data-toggle="modal"
+                                                data-target="#updateCustomerModal{{ customer.id }}"
+                                                type="button">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <!-- Update Customer Modal -->
+                                <div aria-hidden="true"
+                                     aria-labelledby="updateCustomerModalLabel{{ customer.id }}"
+                                     class="modal fade"
+                                     data-backdrop="static"
+                                     data-keyboard="false"
+                                     id="updateCustomerModal{{ customer.id }}"
+                                     role="dialog"
+                                     tabindex="-1">
+
+                                    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+
+                                        <div class="modal-content">
+
+                                            <!-- Modal Header -->
+                                            <div class="modal-header">
+
+                                                <h5 class="modal-title"
+                                                    id="updateCustomerModalLabel{{ customer.id }}">
+
+                                                    <i class="fas fa-user-edit mr-2"></i>
+                                                    Update Customer
+
+                                                </h5>
+
+                                                <button aria-label="Close"
+                                                        class="close"
+                                                        data-dismiss="modal"
+                                                        type="button">
+
+                                                    <span aria-hidden="true">&times;</span>
+
+                                                </button>
+
+                                            </div>
+
+
+                                            <!-- Form -->
+                                            <form action="{% url 'customer_update' customer.id %}"
+                                                  method="POST">
+
+                                                {% csrf_token %}
+
+                                                <div class="modal-body">
+
+                                                    <div class="row">
+
+                                                        <!-- First Name -->
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+
+                                                                <label for="firstName{{ customer.id }}">
+                                                                    First Name
+                                                                </label>
+
+                                                                <input
+                                                                        class="form-control"
+                                                                        id="firstName{{ customer.id }}"
+                                                                        name="first_name"
+                                                                        value="{{ customer.first_name|default:'' }}"
+                                                                        placeholder="Enter first name"
+                                                                        required
+                                                                        type="text">
+
+                                                            </div>
+                                                        </div>
+
+
+                                                        <!-- Last Name -->
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+
+                                                                <label for="lastName{{ customer.id }}">
+                                                                    Last Name
+                                                                </label>
+
+                                                                <input
+                                                                        class="form-control"
+                                                                        id="lastName{{ customer.id }}"
+                                                                        name="last_name"
+                                                                        value="{{ customer.last_name|default:'' }}"
+                                                                        placeholder="Enter last name"
+                                                                        required
+                                                                        type="text">
+
+                                                            </div>
+                                                        </div>
+
+
+                                                        <!-- Username -->
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+
+                                                                <label for="username{{ customer.id }}">
+                                                                    Username
+                                                                </label>
+
+                                                                <input
+                                                                        class="form-control"
+                                                                        id="username{{ customer.id }}"
+                                                                        name="username"
+                                                                        value="{{ customer.username|default:'' }}"
+                                                                        placeholder="Enter username"
+                                                                        required
+                                                                        type="text">
+
+                                                            </div>
+                                                        </div>
+
+
+                                                        <!-- Email -->
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+
+                                                                <label for="email{{ customer.id }}">
+                                                                    Email
+                                                                </label>
+
+                                                                <input
+                                                                        class="form-control"
+                                                                        id="email{{ customer.id }}"
+                                                                        name="email"
+                                                                        value="{{ customer.email|default:'' }}"
+                                                                        placeholder="Enter email"
+                                                                        type="email">
+
+                                                            </div>
+                                                        </div>
+
+
+                                                        <!-- Phone -->
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+
+                                                                <label for="phone{{ customer.id }}">
+                                                                    Phone
+                                                                </label>
+
+                                                                <input
+                                                                        class="form-control"
+                                                                        id="phone{{ customer.id }}"
+                                                                        name="phone"
+                                                                        value="{{ customer.phone|default:'' }}"
+                                                                        placeholder="Enter phone number"
+                                                                        type="text">
+
+                                                            </div>
+                                                        </div>
+
+
+                                                        <!-- Password -->
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+
+                                                                <label for="password{{ customer.id }}">
+                                                                    Password
+                                                                </label>
+
+                                                                <input
+                                                                        class="form-control"
+                                                                        id="password{{ customer.id }}"
+                                                                        name="password"
+                                                                        placeholder="Leave blank to keep current password"
+                                                                        type="password">
+
+                                                                <small class="text-muted">
+                                                                    Leave blank if you don't want to change password.
+                                                                </small>
+
+                                                            </div>
+                                                        </div>
+
+
+                                                        <!-- Address -->
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+
+                                                                <label for="address{{ customer.id }}">
+                                                                    Address
+                                                                </label>
+
+                                                                <textarea
+                                                                        class="form-control"
+                                                                        id="address{{ customer.id }}"
+                                                                        name="address"
+                                                                        placeholder="Enter address"
+                                                                        rows="2">{{ customer.address|default:'' }}</textarea>
+
+                                                            </div>
+                                                        </div>
+
+
+                                                        <!-- City -->
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+
+                                                                <label for="city{{ customer.id }}">
+                                                                    City
+                                                                </label>
+
+                                                                <input
+                                                                        class="form-control"
+                                                                        id="city{{ customer.id }}"
+                                                                        name="city"
+                                                                        value="{{ customer.city|default:'' }}"
+                                                                        placeholder="Enter city"
+                                                                        type="text">
+
+                                                            </div>
+                                                        </div>
+
+
+                                                        <!-- State -->
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+
+                                                                <label for="state{{ customer.id }}">
+                                                                    State
+                                                                </label>
+
+                                                                <input
+                                                                        class="form-control"
+                                                                        id="state{{ customer.id }}"
+                                                                        name="state"
+                                                                        value="{{ customer.state|default:'' }}"
+                                                                        placeholder="Enter state"
+                                                                        type="text">
+
+                                                            </div>
+                                                        </div>
+
+
+                                                        <!-- Pincode -->
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+
+                                                                <label for="pincode{{ customer.id }}">
+                                                                    Pincode
+                                                                </label>
+
+                                                                <input
+                                                                        class="form-control"
+                                                                        id="pincode{{ customer.id }}"
+                                                                        name="pincode"
+                                                                        value="{{ customer.pincode|default:'' }}"
+                                                                        placeholder="Enter pincode"
+                                                                        type="number">
+
+                                                            </div>
+                                                        </div>
+
+
+                                                        <!-- Country -->
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+
+                                                                <label for="country{{ customer.id }}">
+                                                                    Country
+                                                                </label>
+
+                                                                <input
+                                                                        class="form-control"
+                                                                        id="country{{ customer.id }}"
+                                                                        name="country"
+                                                                        value="{{ customer.country|default:'' }}"
+                                                                        placeholder="Enter country"
+                                                                        type="text">
+
+                                                            </div>
+                                                        </div>
+
+
+                                                        <!-- Status -->
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+
+                                                                <label for="customerStatus{{ customer.id }}">
+                                                                    Status
+                                                                </label>
+
+                                                                <select
+                                                                        class="form-control"
+                                                                        id="customerStatus{{ customer.id }}"
+                                                                        name="status">
+
+                                                                    <option value="1"
+                                                                            {% if customer.is_active %}
+                                                                            selected
+                                                                            {% endif %}>
+                                                                        Active
+                                                                    </option>
+
+                                                                    <option value="0"
+                                                                            {% if not customer.is_active %}
+                                                                            selected
+                                                                            {% endif %}>
+                                                                        Inactive
+                                                                    </option>
+
+                                                                </select>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+
+                                                <!-- Modal Footer -->
+                                                <div class="modal-footer">
+
+                                                    <button
+                                                            class="btn btn-secondary"
+                                                            data-dismiss="modal"
+                                                            type="button">
+
+                                                        Cancel
+
+                                                    </button>
+
+
+                                                    <button
+                                                            class="btn btn-primary"
+                                                            type="submit">
+
+                                                        <i class="fas fa-save mr-1"></i>
+                                                        Update Customer
+
+                                                    </button>
+
+                                                </div>
+
+                                            </form>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                {%endfor%}
+                                {% else %}
+                                <tr>
+                                    <td class="text-center" colspan="7">
+                                        No categories found.
+                                    </td>
+                                </tr>
+                                {% endif%}
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                </div>
+            </div>
+            <!-- Add Customer Modal -->
+            <div aria-hidden="true" aria-labelledby="addCustomerModalLabel" class="modal fade" data-backdrop="static" data-keyboard="false" id="addCustomerModal" role="dialog" tabindex="-1">
+
+                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+
+                    <div class="modal-content">
+
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+
+                            <h5 class="modal-title" id="addCustomerModalLabel">
+                                <i class="fas fa-user-plus mr-2"></i>
+                                Add New Customer
+                            </h5>
+
+                            <button aria-label="Close"
+                                    class="close"
+                                    data-dismiss="modal"
+                                    type="button">
+
+                                <span aria-hidden="true">&times;</span>
+
+                            </button>
+
+                        </div>
+
+                        <!-- Modal Body -->
+                        <form action="{% url 'customer_create' %}"
+                              method="POST">
+
+                            {% csrf_token %}
+
+                            <div class="modal-body">
+
+                                <div class="row">
+
+                                    <!-- First Name -->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+
+                                            <label for="firstName">
+                                                First Name
+                                            </label>
+
+                                            <input
+                                                    class="form-control"
+                                                    id="firstName"
+                                                    name="first_name"
+                                                    placeholder="Enter first name"
+                                                    required
+                                                    type="text">
+
+                                        </div>
+                                    </div>
+
+
+                                    <!-- Last Name -->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+
+                                            <label for="lastName">
+                                                Last Name
+                                            </label>
+
+                                            <input
+                                                    class="form-control"
+                                                    id="lastName"
+                                                    name="last_name"
+                                                    placeholder="Enter last name"
+                                                    required
+                                                    type="text">
+
+                                        </div>
+                                    </div>
+
+
+                                    <!-- Username -->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+
+                                            <label for="username">
+                                                Username
+                                            </label>
+
+                                            <input
+                                                    class="form-control"
+                                                    id="username"
+                                                    name="username"
+                                                    placeholder="Enter username"
+                                                    required
+                                                    type="text">
+
+                                        </div>
+                                    </div>
+
+
+                                    <!-- Email -->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+
+                                            <label for="email">
+                                                Email
+                                            </label>
+
+                                            <input
+                                                    class="form-control"
+                                                    id="email"
+                                                    name="email"
+                                                    placeholder="Enter email"
+                                                    type="email">
+
+                                        </div>
+                                    </div>
+
+
+                                    <!-- Phone -->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+
+                                            <label for="phone">
+                                                Phone
+                                            </label>
+
+                                            <input
+                                                    class="form-control"
+                                                    id="phone"
+                                                    name="phone"
+                                                    placeholder="Enter phone number"
+                                                    type="text">
+
+                                        </div>
+                                    </div>
+
+
+                                    <!-- Password -->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+
+                                            <label for="password">
+                                                Password
+                                            </label>
+
+                                            <input
+                                                    class="form-control"
+                                                    id="password"
+                                                    name="password"
+                                                    placeholder="Enter password"
+                                                    type="password">
+
+                                        </div>
+                                    </div>
+
+
+                                    <!-- Address -->
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+
+                                            <label for="address">
+                                                Address
+                                            </label>
+
+                                            <textarea
+                                                    class="form-control"
+                                                    id="address"
+                                                    name="address"
+                                                    placeholder="Enter address"
+                                                    rows="2"></textarea>
+
+                                        </div>
+                                    </div>
+
+
+                                    <!-- City -->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+
+                                            <label for="city">
+                                                City
+                                            </label>
+
+                                            <input
+                                                    class="form-control"
+                                                    id="city"
+                                                    name="city"
+                                                    placeholder="Enter city"
+                                                    type="text">
+
+                                        </div>
+                                    </div>
+
+
+                                    <!-- State -->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+
+                                            <label for="state">
+                                                State
+                                            </label>
+
+                                            <input
+                                                    class="form-control"
+                                                    id="state"
+                                                    name="state"
+                                                    placeholder="Enter state"
+                                                    type="text">
+
+                                        </div>
+                                    </div>
+
+
+                                    <!-- Pincode -->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+
+                                            <label for="pincode">
+                                                Pincode
+                                            </label>
+
+                                            <input
+                                                    class="form-control"
+                                                    id="pincode"
+                                                    name="pincode"
+                                                    placeholder="Enter pincode"
+                                                    type="number">
+
+                                        </div>
+                                    </div>
+
+
+                                    <!-- Country -->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+
+                                            <label for="country">
+                                                Country
+                                            </label>
+
+                                            <input
+                                                    class="form-control"
+                                                    id="country"
+                                                    name="country"
+                                                    placeholder="Enter country"
+                                                    type="text">
+
+                                        </div>
+                                    </div>
+
+
+                                    <!-- Status -->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+
+                                            <label for="customerStatus">
+                                                Status
+                                            </label>
+
+                                            <select
+                                                    class="form-control"
+                                                    id="customerStatus"
+                                                    name="status">
+
+                                                <option selected value="1">
+                                                    Active
+                                                </option>
+
+                                                <option value="0">
+                                                    Inactive
+                                                </option>
+
+                                            </select>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Modal Footer -->
+                            <div class="modal-footer">
+
+                                <button
+                                        class="btn btn-secondary"
+                                        data-dismiss="modal"
+                                        type="button">
+
+                                    Cancel
+
+                                </button>
+
+
+                                <button
+                                        class="btn btn-primary"
+                                        type="submit">
+
+                                    <i class="fas fa-save mr-1"></i>
+                                    Save Customer
+
+                                </button>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{%endblock%}
+{% block page_js%}
+<script src="{% static 'backend/plugins/datatables/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'backend/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'backend/plugins/datatables-responsive/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'backend/plugins/datatables-responsive/js/responsive.bootstrap4.min.js' %}"></script>
+<script>
+    $(function () {
+        $("#example1").DataTable({
+            "responsive": true, "lengthChange": false, "autoWidth": false,
+        });
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    function deleteCustomer(id, url, name) {
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You want to delete '" + name + "'?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+
+            if (result.isConfirmed) {
+
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': getCookie('csrftoken'),
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+
+                        if (data.success) {
+
+                            Swal.fire({
+                                title: 'Deleted!',
+                                text: data.message,
+                                icon: 'success',
+                                timer: 1500,
+                                showConfirmButton: false
+                            }).then(() => {
+                                location.reload();
+                            });
+
+                        } else {
+
+                            Swal.fire(
+                                'Error!',
+                                'Category could not be deleted.',
+                                'error'
+                            );
+
+                        }
+                    })
+                    .catch(error => {
+
+                        Swal.fire(
+                            'Error!',
+                            'Something went wrong.',
+                            'error'
+                        );
+
+                    });
+            }
+        });
+    }
+
+
+    function getCookie(name) {
+
+        let cookieValue = null;
+
+        if (document.cookie && document.cookie !== '') {
+
+            const cookies = document.cookie.split(';');
+
+            for (let cookie of cookies) {
+
+                cookie = cookie.trim();
+
+                if (cookie.startsWith(name + '=')) {
+                    cookieValue = decodeURIComponent(
+                        cookie.substring(name.length + 1)
+                    );
+                    break;
+                }
+            }
+        }
+
+        return cookieValue;
+    }
+</script>
+{%endblock%}

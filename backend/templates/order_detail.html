@@ -1,0 +1,508 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+<div class="content-wrapper">
+
+
+    <!-- Content Header -->
+    <div class="content-header">
+
+        <div class="container-fluid">
+
+            <div class="row mb-2">
+
+                <div class="col-sm-6">
+
+                    <h1 class="m-0">
+                        Order Details
+                    </h1>
+
+                </div>
+
+
+                <div class="col-sm-6">
+
+                    <ol class="breadcrumb float-sm-right">
+
+                        <li class="breadcrumb-item">
+                            <a href="/backend/dashboard">
+                                Home
+                            </a>
+                        </li>
+
+                        <li class="breadcrumb-item">
+
+                            <a href="{% url 'orders' %}">
+                                Orders
+                            </a>
+
+                        </li>
+
+                        <li class="breadcrumb-item active">
+                            Order Details
+                        </li>
+
+                    </ol>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- Main Content -->
+    <section class="content">
+
+        <div class="container-fluid">
+
+
+            <!-- Order Information -->
+            <div class="card">
+
+                <div class="card-header">
+
+                    <h3 class="card-title">
+
+                        <i class="fas fa-shopping-cart mr-2"></i>
+
+                        Order #{{ order.order_number }}
+
+                    </h3>
+
+                </div>
+
+
+                <div class="card-body">
+
+                    <div class="row">
+
+
+                        <!-- Customer -->
+                        <div class="col-md-6">
+
+                            <div class="card card-outline card-primary">
+
+                                <div class="card-header">
+
+                                    <h3 class="card-title">
+                                        Customer Information
+                                    </h3>
+
+                                </div>
+
+
+                                <div class="card-body">
+
+                                    <p>
+                                        <strong>Name:</strong>
+
+                                        {{ order.first_name }}
+                                        {{ order.last_name }}
+
+                                    </p>
+
+
+                                    <p>
+                                        <strong>Email:</strong>
+
+                                        {{ order.email|default:"-" }}
+
+                                    </p>
+
+
+                                    <p>
+                                        <strong>Phone:</strong>
+
+                                        {{ order.phone|default:"-" }}
+
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- Order Info -->
+                        <div class="col-md-6">
+
+                            <div class="card card-outline card-info">
+
+                                <div class="card-header">
+
+                                    <h3 class="card-title">
+                                        Order Information
+                                    </h3>
+
+                                </div>
+
+
+                                <div class="card-body">
+
+                                    <p>
+
+                                        <strong>Order Number:</strong>
+
+                                        {{ order.order_number }}
+
+                                    </p>
+
+
+                                    <p>
+
+                                        <strong>Payment Method:</strong>
+
+                                        {{ order.payment_method }}
+
+                                    </p>
+
+
+                                    <p>
+
+                                        <strong>Status:</strong>
+
+                                        {% if order.status == "pending" %}
+
+                                        <span class="badge badge-warning">
+                                                Pending
+                                            </span>
+
+                                        {% elif order.status == "confirmed" %}
+                                        <span class="badge badge-success">
+                                            Confirmed
+                                        </span>
+
+                                        {% elif order.status == "processing" %}
+
+                                        <span class="badge badge-info">
+                                                Processing
+                                            </span>
+
+                                        {% elif order.status == "shipped" %}
+
+                                        <span class="badge badge-primary">
+                                                Shipped
+                                            </span>
+
+                                        {% elif order.status == "delivered" %}
+
+                                        <span class="badge badge-success">
+                                                Delivered
+                                            </span>
+
+                                        {% elif order.status == "cancelled" %}
+
+                                        <span class="badge badge-danger">
+                                                Cancelled
+                                            </span>
+
+                                        {% else %}
+
+                                        <span class="badge badge-secondary">
+                                                {{ order.status }}
+                                            </span>
+
+                                        {% endif %}
+
+                                    </p>
+
+
+                                    <p>
+
+                                        <strong>Order Date:</strong>
+
+                                        {{ order.created_at|date:"d-m-Y H:i" }}
+
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- Shipping Address -->
+                    <div class="card card-outline card-secondary">
+
+                        <div class="card-header">
+
+                            <h3 class="card-title">
+
+                                <i class="fas fa-map-marker-alt mr-2"></i>
+
+                                Shipping Address
+
+                            </h3>
+
+                        </div>
+
+
+                        <div class="card-body">
+
+                            {% if order.address %}
+                            {{ order.address }}
+                            {% endif %}
+
+                            {% if order.city %}
+                            , {{ order.city }}
+                            {% endif %}
+
+                            {% if order.state %}
+                            , {{ order.state }}
+                            {% endif %}
+
+                            {% if order.pincode %}
+                            - {{ order.pincode }}
+                            {% endif %}
+
+                            {% if order.country %}
+                            , {{ order.country }}
+                            {% endif %}
+
+                            {% if order.landmark %}
+
+                            <br>
+
+                            <strong>
+                                Landmark:
+                            </strong>
+
+                            {{ order.landmark }}
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- Order Items -->
+                    <div class="card card-outline card-success">
+
+                        <div class="card-header">
+
+                            <h3 class="card-title">
+
+                                <i class="fas fa-box mr-2"></i>
+
+                                Order Items
+
+                            </h3>
+
+                        </div>
+
+
+                        <div class="card-body">
+
+                            <div class="table-responsive">
+
+                                <table class="table table-bordered table-striped">
+
+                                    <thead>
+
+                                    <tr>
+
+                                        <th>#</th>
+
+                                        <th>Product</th>
+
+                                        <th>Price</th>
+
+                                        <th>Quantity</th>
+
+                                        <th>Subtotal</th>
+
+                                    </tr>
+
+                                    </thead>
+
+
+                                    <tbody>
+
+                                    {% if order_items %}
+
+                                    {% for item in order_items %}
+
+                                    <tr>
+
+                                        <td>
+                                            {{ forloop.counter }}
+                                        </td>
+
+
+                                        <td>
+
+                                            {{ item.product_name }}
+
+                                        </td>
+
+
+                                        <td>
+
+                                            ₹{{ item.product_price }}
+
+                                        </td>
+
+
+                                        <td>
+
+                                            {{ item.quantity }}
+
+                                        </td>
+
+
+                                        <td>
+
+                                            <strong>
+                                                ₹{{ item.subtotal }}
+                                            </strong>
+
+                                        </td>
+
+                                    </tr>
+
+                                    {% endfor %}
+
+                                    {% else %}
+
+                                    <tr>
+
+                                        <td
+                                                colspan="5"
+                                                class="text-center">
+
+                                            No items found for this order.
+
+                                        </td>
+
+                                    </tr>
+
+                                    {% endif %}
+
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- Order Summary -->
+                    <div class="row justify-content-end">
+
+                        <div class="col-md-5">
+
+                            <div class="card">
+
+                                <div class="card-header">
+
+                                    <h3 class="card-title">
+                                        Order Summary
+                                    </h3>
+
+                                </div>
+
+
+                                <div class="card-body">
+
+                                    <div class="d-flex justify-content-between">
+
+                                        <span>
+                                            Subtotal
+                                        </span>
+
+                                        <strong>
+                                            ₹{{ order.subtotal }}
+                                        </strong>
+
+                                    </div>
+
+
+                                    <hr>
+
+
+                                    <div class="d-flex justify-content-between">
+
+                                        <span>
+                                            Delivery
+                                        </span>
+
+                                        <strong>
+                                            ₹{{ order.delivery }}
+                                        </strong>
+
+                                    </div>
+
+
+                                    <hr>
+
+
+                                    <div class="d-flex justify-content-between">
+
+                                        <strong>
+                                            Total
+                                        </strong>
+
+                                        <strong class="text-success">
+
+                                            ₹{{ order.total }}
+
+                                        </strong>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- Back Button -->
+                    <div class="mb-3">
+
+                        <a
+                                href="{% url 'orders' %}"
+                                class="btn btn-secondary">
+
+                            <i class="fas fa-arrow-left mr-1"></i>
+
+                            Back to Orders
+
+                        </a>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+{% endblock %}

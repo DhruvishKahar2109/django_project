@@ -1,0 +1,270 @@
+{% extends 'shop/layout/base.html' %}
+
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/order_success.css' %}">
+{% endblock %}
+
+
+{% block content %}
+
+<section class="order-success-page">
+
+    <div class="order-success-container">
+
+
+        <!-- ================= SUCCESS ICON ================= -->
+
+        <div class="success-icon-wrapper">
+
+            <div class="success-icon">
+
+                <i class="fa-solid fa-check"></i>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= SUCCESS MESSAGE ================= -->
+
+        <div class="success-message">
+
+            <span class="success-label">
+                ORDER CONFIRMED
+            </span>
+
+            <h1>
+                Thank you for your order!
+            </h1>
+
+            <p>
+                Your order has been successfully placed.
+                We'll let you know when it's on its way.
+            </p>
+
+        </div>
+
+
+        <!-- ================= ORDER CARD ================= -->
+
+        <div class="order-confirmation-card">
+
+
+            <!-- ================= ORDER HEADER ================= -->
+
+            <div class="order-card-header">
+
+                <div>
+
+                    <span class="order-small-label">
+                        ORDER DETAILS
+                    </span>
+
+                    <h2>
+                        Order #123456
+                    </h2>
+
+                </div>
+
+
+                <span class="order-status">
+                    Confirmed
+                </span>
+
+            </div>
+
+
+            <div class="order-card-divider"></div>
+
+
+            <!-- ================= ORDER INFO ================= -->
+
+            <div class="order-info-grid">
+
+
+                <div class="order-info-item">
+
+                    <span>
+                        Order Date
+                    </span>
+
+                    <strong>
+                        10-09-2026
+                    </strong>
+
+                </div>
+
+
+                <div class="order-info-item">
+
+                    <span>
+                        Payment
+                    </span>
+
+                    <strong>
+                        Cash on Delivery
+                    </strong>
+
+                </div>
+
+
+                <div class="order-info-item">
+
+                    <span>
+                        Delivery
+                    </span>
+
+                    <strong>
+                        Standard Delivery
+                    </strong>
+
+                </div>
+
+
+                <div class="order-info-item">
+
+                    <span>
+                        Order Total
+                    </span>
+
+                    <strong>
+                        ₹100.00
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="order-card-divider"></div>
+
+
+            <!-- ================= DELIVERY ================= -->
+
+            <div class="delivery-section">
+
+                <div class="delivery-icon">
+
+                    <i class="fa-solid fa-truck-fast"></i>
+
+                </div>
+
+
+                <div>
+
+                    <span class="delivery-title">
+                        Delivering to
+                    </span>
+
+                    <strong>
+                        Dhruvish
+                        kahar
+                    </strong>
+
+                    <p>
+                        B-4 Shreenathdham soc.,,
+                        Vadodara,
+                        Gujarat
+                        - 390025
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="order-card-divider"></div>
+
+
+            <!-- ================= PRODUCTS ================= -->
+
+            <div class="ordered-products">
+
+                <h3>
+                    Items in your order
+                </h3>
+
+
+
+                <div class="ordered-product">
+
+                    <div class="ordered-product-image">
+
+                        <i class="fa-regular fa-image"></i>
+                    </div>
+
+
+                    <div class="ordered-product-info">
+
+                        <strong>
+                           electronics
+                        </strong>
+
+                        <span>
+                            Quantity: 1
+                        </span>
+
+                    </div>
+
+
+                    <strong class="ordered-product-price">
+                        ₹100.00
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= ACTIONS ================= -->
+
+        <div class="success-actions">
+
+            <a
+                    href="{% url 'shop_list' %}"
+                    class="continue-shopping-btn">
+
+                <i class="fa-solid fa-arrow-left"></i>
+
+                Continue Shopping
+
+            </a>
+
+
+            <a href="{% url 'my_orders' %}"
+                    class="view-orders-btn">
+
+                View My Orders
+
+                <i class="fa-solid fa-arrow-right"></i>
+
+            </a>
+
+        </div>
+
+
+        <!-- ================= HELP ================= -->
+
+        <div class="success-help">
+
+            <i class="fa-regular fa-circle-question"></i>
+
+            <span>
+                Need help with your order?
+            </span>
+
+            <a href="#">
+                Contact Support
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

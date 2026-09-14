@@ -1,0 +1,48 @@
+{% extends 'shop/layout/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/categories.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="categories-page">
+
+    <div class="page-heading">
+        <span>EXPLORE</span>
+        <h1>Shop by Category</h1>
+        <p>Find products made for you.</p>
+    </div>
+
+
+    <div class="categories-grid">
+
+        {% for category in categories %}
+
+        <a href="{% url 'shop_list' %}?category={{ category.id }}"
+           class="category-box">
+
+            <div class="category-icon">
+                <i class="fa-solid fa-bag-shopping"></i>
+            </div>
+
+            <div>
+                <h2>{{ category.name }}</h2>
+
+                <p>
+                    {{ category.product_set.count }} Products
+                </p>
+            </div>
+
+            <i class="fa-solid fa-arrow-right"></i>
+
+        </a>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endblock %}

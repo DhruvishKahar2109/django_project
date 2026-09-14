@@ -1,0 +1,288 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+{%block page_css%}
+<link href="{% static 'backend/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+<link href="{% static 'backend/plugins/datatables-responsive/css/responsive.bootstrap4.min.css' %}" rel="stylesheet">
+<link href="{% static 'backend/plugins/datatables-buttons/css/buttons.bootstrap4.min.css' %}" rel="stylesheet">
+{%endblock%}
+{% block content %}
+
+<div class="content-wrapper">
+
+    <!-- Content Header -->
+    <div class="content-header">
+
+        <div class="container-fluid">
+
+            <div class="row mb-2">
+
+                <div class="col-sm-6">
+
+                    <h1 class="m-0">
+                        Orders
+                    </h1>
+
+                </div>
+
+                <div class="col-sm-6">
+
+                    <ol class="breadcrumb float-sm-right">
+
+                        <li class="breadcrumb-item">
+                            <a href="/backend/dashboard">
+                                Home
+                            </a>
+                        </li>
+
+                        <li class="breadcrumb-item active">
+                            Orders
+                        </li>
+
+                    </ol>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Main Content -->
+    <section class="content">
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <div class="col-12">
+
+                    <div class="card">
+
+                        <!-- Card Header -->
+                        <div class="card-header">
+
+                            <h3 class="card-title">
+                                All Orders
+                            </h3>
+
+                        </div>
+
+
+                        <!-- Card Body -->
+                        <div class="card-body">
+
+                            <table
+                                    id="example1"
+                                    class="table table-bordered table-striped">
+
+                                <thead>
+
+                                <tr>
+
+                                    <th>#</th>
+
+                                    <th>Order Number</th>
+
+                                    <th>Customer</th>
+
+                                    <th>Phone</th>
+
+                                    <th>Payment</th>
+
+                                    <th>Status</th>
+
+                                    <th>Subtotal</th>
+
+                                    <th>Delivery</th>
+
+                                    <th>Total</th>
+
+                                    <th>Date</th>
+
+                                    <th>Action</th>
+
+                                </tr>
+
+                                </thead>
+
+
+                                <tbody>
+
+                                {% if orders %}
+
+                                {% for order in orders %}
+
+                                <tr>
+
+                                    <td>
+                                        {{ order.id }}
+                                    </td>
+
+
+                                    <td>
+                                        <strong>
+                                            {{ order.order_number }}
+                                        </strong>
+                                    </td>
+
+
+                                    <td>
+
+                                        {{ order.first_name }}
+                                        {{ order.last_name }}
+
+                                    </td>
+
+
+                                    <td>
+                                        {{ order.phone|default:"-" }}
+                                    </td>
+
+
+                                    <td>
+
+                                            <span class="badge badge-info">
+                                                {{ order.payment_method }}
+                                            </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        {% if order.status == "pending" %}
+
+                                        <span class="badge badge-warning">
+                                                    Pending
+                                                </span>
+
+                                        {% elif order.status == "processing" %}
+
+                                        <span class="badge badge-info">
+                                                    Processing
+                                                </span>
+
+                                        {% elif order.status == "shipped" %}
+
+                                        <span class="badge badge-primary">
+                                                    Shipped
+                                                </span>
+
+                                        {% elif order.status == "delivered" %}
+
+                                        <span class="badge badge-success">
+                                                    Delivered
+                                                </span>
+
+                                        {% elif order.status == "cancelled" %}
+
+                                        <span class="badge badge-danger">
+                                                    Cancelled
+                                                </span>
+
+                                        {% else %}
+
+                                        <span class="badge badge-secondary">
+                                                    {{ order.status }}
+                                                </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+
+                                    <td>
+                                        ₹{{ order.subtotal }}
+                                    </td>
+
+
+                                    <td>
+                                        ₹{{ order.delivery }}
+                                    </td>
+
+
+                                    <td>
+
+                                        <strong>
+                                            ₹{{ order.total }}
+                                        </strong>
+
+                                    </td>
+
+
+                                    <td>
+                                        {{ order.created_at|date:"d-m-Y H:i" }}
+                                    </td>
+
+
+                                    <td>
+
+                                        <a
+                                                href="{% url 'order_detail' order.id %}"
+                                                class="btn btn-primary btn-sm">
+
+                                            <i class="fas fa-eye"></i>
+                                            View
+
+                                        </a>
+
+                                    </td>
+
+                                </tr>
+
+                                {% endfor %}
+
+                                {% else %}
+
+                                <tr>
+
+                                    <td
+                                            colspan="11"
+                                            class="text-center">
+
+                                        No orders found.
+
+                                    </td>
+
+                                </tr>
+
+                                {% endif %}
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+{% endblock %}
+
+
+{% block page_js%}
+<script src="{% static 'backend/plugins/datatables/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'backend/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'backend/plugins/datatables-responsive/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'backend/plugins/datatables-responsive/js/responsive.bootstrap4.min.js' %}"></script>
+<script>
+    $(function () {
+        $("#example1").DataTable({
+            "responsive": true, "lengthChange": false, "autoWidth": false,
+        });
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{%endblock%}

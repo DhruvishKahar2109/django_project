@@ -1,0 +1,264 @@
+{% extends 'shop/layout/base.html' %}
+
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/my_orders.css' %}">
+{% endblock %}
+
+
+{% block content %}
+
+<section class="my-orders-page">
+
+    <div class="my-orders-container">
+
+
+        <!-- ================= HEADER ================= -->
+
+        <div class="my-orders-header">
+
+            <span class="my-orders-label">
+                ACCOUNT
+            </span>
+
+            <h1>
+                My Orders
+            </h1>
+
+            <p>
+                Track and manage all your orders in one place.
+            </p>
+
+        </div>
+
+
+        <!-- ================= ORDERS ================= -->
+
+        <div class="orders-list">
+
+            {% if orders %}
+
+            {% for order in orders %}
+
+            <div class="order-card">
+
+                <!-- ================= ORDER HEADER ================= -->
+
+                <div class="order-card-top">
+
+                    <div class="order-number">
+
+                        <span>
+                            ORDER
+                        </span>
+
+                        <strong>
+                            #{{ order.order_number }}
+                        </strong>
+
+                    </div>
+
+
+                    <div class="order-date">
+
+                        <span>
+                            {{ order.created_at|date:"d-m-Y" }}
+                        </span>
+
+                    </div>
+
+
+                    {% if order.status == "confirmed" %}
+
+                    <span class="order-status confirmed">
+                        <i class="fa-solid fa-check"></i>
+                        Confirmed
+                    </span>
+
+                                    {% elif order.status == "delivered" %}
+
+                                    <span class="order-status delivered">
+                        <i class="fa-solid fa-check"></i>
+                        Delivered
+                    </span>
+
+                                    {% elif order.status == "cancelled" %}
+
+                                    <span class="order-status cancelled">
+                        <i class="fa-solid fa-xmark"></i>
+                        Cancelled
+                    </span>
+
+                                    {% elif order.status == "shipped" %}
+
+                                    <span class="order-status shipped">
+                        <i class="fa-solid fa-truck"></i>
+                        Shipped
+                    </span>
+
+                                    {% elif order.status == "processing" %}
+
+                                    <span class="order-status processing">
+                        <i class="fa-solid fa-box"></i>
+                        Processing
+                    </span>
+
+                                    {% else %}
+
+                                    <span class="order-status pending">
+                        <i class="fa-solid fa-clock"></i>
+                        {{ order.status|title }}
+                    </span>
+
+                    {% endif %}
+
+                </div>
+
+
+                <div class="order-divider"></div>
+
+
+                <!-- ================= ORDER PRODUCTS ================= -->
+
+                <div class="order-products">
+
+                    {% for item in order.items.all %}
+
+                    <div class="order-product">
+
+
+                        <!-- PRODUCT IMAGE -->
+
+                        <div class="order-product-image">
+
+                            {% if item.product and item.product.image %}
+
+                            <img
+                                    src="{{ item.product.image.url }}"
+                                    alt="{{ item.product_name }}"
+                            >
+
+                            {% else %}
+
+                            <i class="fa-regular fa-image"></i>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- PRODUCT INFO -->
+
+                        <div class="order-product-info">
+
+                            <h3>
+                                {{ item.product_name }}
+                            </h3>
+
+                            <span>
+                                    Quantity: {{ item.quantity }}
+                                </span>
+
+                        </div>
+
+
+                        <!-- ITEM PRICE -->
+
+                        <div class="order-product-price">
+
+                            ₹{{ item.subtotal|floatformat:2 }}
+
+                        </div>
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+
+                <div class="order-divider"></div>
+
+
+                <!-- ================= ORDER FOOTER ================= -->
+
+                <div class="order-card-bottom">
+
+
+                    <div class="order-total">
+
+                        <span>
+                            Order Total
+                        </span>
+
+                        <strong>
+                            ₹{{ order.total|floatformat:2 }}
+                        </strong>
+
+                    </div>
+
+
+                    <a
+                            href="{% url 'shop_order_detail' order.id %}"
+                            class="view-order-btn">
+
+                        View Details
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+
+            {% else %}
+
+            <!-- ================= EMPTY ORDERS ================= -->
+
+            <div class="empty-orders">
+
+                <div class="empty-orders-icon">
+
+                    <i class="fa-solid fa-box-open"></i>
+
+                </div>
+
+
+                <h2>
+                    No orders yet
+                </h2>
+
+
+                <p>
+                    You haven't placed any orders yet.
+                    Start shopping and your orders will appear here.
+                </p>
+
+
+                <a
+                        href="{% url 'shop_list' %}"
+                        class="start-shopping-btn">
+
+                    Start Shopping
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                </a>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+
+    </div>
+
+</section>
+
+{% endblock %}

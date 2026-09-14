@@ -12,12 +12,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Dashboard</h1>
+                    <h1 class="m-0">Products</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Dashboard v1</li>
+                        <li class="breadcrumb-item"><a href="/backend/dashboard">Home</a></li>
+                        <li class="breadcrumb-item active">Products</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -29,8 +29,8 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">All Categories</h3>
-                            <button class="btn btn-primary btn-sm float-right" data-target="#addCategoryModal"
+                            <h3 class="card-title">All Products</h3>
+                            <button class="btn btn-primary btn-sm float-right" data-target="#addProductModal"
                                     data-toggle="modal"
                                     type="button">Add +
                             </button>
@@ -43,30 +43,34 @@
                                     <th>#</th>
                                     <th>Image</th>
                                     <th>Name</th>
-                                    <th>Description</th>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                    <th>Stock</th>
                                     <th>Status</th>
                                     <th>Actions</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {% if categories%}
-                                {% for category in categories %}
+                                {% if products %}
+                                {% for product in products %}
                                 <tr>
-                                    <td>{{ category.id }}</td>
+                                    <td>{{ product.id }}</td>
                                     <td>
-                                        {% if category.image %}
-                                        <img alt="{{ category.name }}" height="50"
-                                             src="{{ category.image.url }}"
+                                        {% if product.image %}
+                                        <img alt="{{ product.name }}" height="50"
+                                             src="{{ product.image.url }}"
                                              style="object-fit: cover; border-radius: 8px;"
                                              width="50">
                                         {% else %}
                                         <span class="text-muted">No Image</span>
                                         {% endif %}
                                     </td>
-                                    <td>{{ category.name }}</td>
-                                    <td>{{ category.description }}</td>
+                                    <td>{{ product.name }}</td>
+                                    <td>{{ product.category.name }}</td>
+                                    <td>{{ product.price }}</td>
+                                    <td>{{ product.stock }}</td>
                                     <td>
-                                        {% if category.is_active %}
+                                        {% if product.is_active %}
                                         <span class="badge badge-success">Active</span>
                                         {% else %}
                                         <span class="badge badge-danger">Inactive</span>
@@ -76,9 +80,9 @@
                                         <button
                                                 class="btn btn-danger btn-sm"
                                                 onclick="deleteCategory(
-                                                                        {{ category.id }},
-                                                                        '{% url 'category_delete' category.id %}',
-                                                                        '{{ category.name|escapejs }}'
+                                                                        {{ product.id }},
+                                                                        '{% url 'product_delete' product.id %}',
+                                                                        '{{ product.name|escapejs }}'
                                                                     )"
                                                 type="button">
                                             <i class="fas fa-trash"></i>
@@ -86,7 +90,7 @@
                                         <button
                                                 class="btn btn-warning btn-sm"
                                                 data-toggle="modal"
-                                                data-target="#updateCategoryModal{{ category.id }}"
+                                                data-target="#updateCategoryModal{{ product.id }}"
                                                 type="button">
                                             <i class="fas fa-pencil-alt"></i>
                                         </button>
@@ -94,10 +98,10 @@
                                 </tr>
                                 <!-- Update Category Modal -->
                                 <div class="modal fade"
-                                     id="updateCategoryModal{{ category.id }}"
+                                     id="updateCategoryModal{{ product.id }}"
                                      tabindex="-1"
                                      role="dialog"
-                                     aria-labelledby="updateCategoryModalLabel{{ category.id }}"
+                                     aria-labelledby="updateCategoryModalLabel{{ product.id }}"
                                      aria-hidden="true">
 
                                     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -105,7 +109,7 @@
 
                                             <div class="modal-header">
                                                 <h5 class="modal-title"
-                                                    id="updateCategoryModalLabel{{ category.id }}">
+                                                    id="updateCategoryModalLabel{{ product.id }}">
                                                     <i class="fas fa-edit mr-2"></i>
                                                     Update Category
                                                 </h5>
@@ -118,39 +122,83 @@
                                                 </button>
                                             </div>
 
-                                            <form action="{% url 'category_update' category.id %}"
+                                            <form action="{% url 'product_update' product.id %}"
                                                   method="POST"
                                                   enctype="multipart/form-data">
 
                                                 {% csrf_token %}
 
                                                 <div class="modal-body">
-
                                                     <!-- Category Name -->
                                                     <div class="form-group">
-                                                        <label>Category Name</label>
-                                                        <input type="text"
-                                                               class="form-control"
-                                                               name="name"
-                                                               value="{{ category.name }}"
-                                                               required>
+                                                        <label>Product Name</label>
+                                                        <input
+                                                                type="text"
+                                                                name="name"
+                                                                class="form-control" value="{{ product.name }}"
+                                                                required>
                                                     </div>
+                                                    <div class="form-group">
+                                                        <label>Category</label>
 
-                                                    <!-- Description -->
+                                                        <select name="category_id"
+                                                                class="form-control"
+                                                                required>
+
+                                                            <option value="">Select Category</option>
+
+                                                            {% for category in allCategories %}
+                                                            <option value="{{ category.id }}"
+                                                                    {% if product.category.id == category.id %}
+                                                                    selected
+                                                                    {% endif %} >
+                                                                {{ category.name }}
+                                                            </option>
+                                                            {% endfor %}
+
+                                                        </select>
+                                                    </div>
+                                                   <!-- Description -->
                                                     <div class="form-group">
                                                         <label>Description</label>
                                                         <textarea class="form-control"
                                                                   name="description"
-                                                                  rows="3">{{ category.description }}</textarea>
+                                                                  rows="3">{{ product.description }}</textarea>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label>Price</label>
+
+                                                        <input
+                                                                type="number"
+                                                                name="price"
+                                                                class="form-control"
+                                                                value="{{ product.price }}"
+                                                                step="0.01"
+                                                                required>
+                                                    </div>
+
+
+                                                    <!-- Stock -->
+                                                    <div class="form-group">
+                                                        <label>Stock</label>
+
+                                                        <input
+                                                                type="number"
+                                                                name="stock"
+                                                                class="form-control"
+                                                                value="{{ product.stock }}"
+                                                                min="0"
+                                                                required>
                                                     </div>
 
                                                     <!-- Image -->
                                                     <div class="form-group">
                                                         <label>Image</label>
 
-                                                        {% if category.image %}
+                                                        {% if product.image %}
                                                         <div class="mb-2">
-                                                            <img src="{{ category.image.url }}"
+                                                            <img src="{{ product.image.url }}"
                                                                  width="60"
                                                                  height="60"
                                                                  style="object-fit:cover; border-radius:8px;">
@@ -170,12 +218,12 @@
                                                         <select class="form-control" name="status">
 
                                                             <option value="1"
-                                                                    {% if category.is_active %}selected{% endif %}>
+                                                                    {% if product.is_active %}selected{% endif %}>
                                                                 Active
                                                             </option>
 
                                                             <option value="0"
-                                                                    {% if not category.is_active %}selected{% endif %}>
+                                                                    {% if not product.is_active %}selected{% endif %}>
                                                                 Inactive
                                                             </option>
 
@@ -208,8 +256,8 @@
                                 {%endfor%}
                                 {% else %}
                                 <tr>
-                                    <td class="text-center" colspan="6">
-                                        No categories found.
+                                    <td class="text-center" colspan="8">
+                                        No Products found.
                                     </td>
                                 </tr>
                                 {% endif%}
@@ -220,33 +268,71 @@
                     </div>
                 </div>
             </div>
-            <div aria-hidden="true" aria-labelledby="addCategoryModalLabel" class="modal fade" data-backdrop="static"
-                 data-keyboard="false" id="addCategoryModal" role="dialog" tabindex="-1">
+            <div aria-hidden="true" aria-labelledby="addProductModalLabel" class="modal fade" data-backdrop="static"
+                 data-keyboard="false" id="addProductModal" role="dialog" tabindex="-1">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content"> <!-- Modal Header -->
-                        <div class="modal-header"><h5 class="modal-title" id="addCategoryModalLabel"><i
-                                class="fas fa-folder-plus mr-2"></i> Add New Category </h5>
+                        <div class="modal-header"><h5 class="modal-title" id="addProductModalLabel"><i
+                                class="fas fa-folder-plus mr-2"></i> Add New Product </h5>
                             <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span
                                     aria-hidden="true">&times;</span></button>
                         </div> <!-- Modal Body -->
-                        <form action="{% url 'category_create'%}" enctype="multipart/form-data" method="POST">
+                        <form action="{% url 'product_create'%}" enctype="multipart/form-data" method="POST">
                             {% csrf_token %}
                             <div class="modal-body">
                                 <!-- Category Name -->
                                 <div class="form-group">
-                                    <label for="categoryName"> Category Name </label>
+                                    <label>Product Name</label>
                                     <input
-                                            class="form-control" id="categoryName" name="name"
-                                            placeholder="Enter category name"
-                                            required type="text">
+                                            type="text"
+                                            name="name"
+                                            class="form-control"
+                                            required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Category</label>
+
+                                    <select name="category_id"
+                                            class="form-control"
+                                            required>
+
+                                        <option value="">Select Category</option>
+
+                                        {% for category in allCategories %}
+                                        <option value="{{ category.id }}">
+                                            {{ category.name }}
+                                        </option>
+                                        {% endfor %}
+
+                                    </select>
                                 </div>
                                 <!-- Description -->
                                 <div class="form-group">
-                                    <label for="categoryDescription"> Description </label>
+                                    <label for="description"> Description </label>
                                     <textarea
-                                            class="form-control" id="categoryDescription" name="description"
-                                            placeholder="Enter category description"
+                                            class="form-control" id="description" name="description"
+                                            placeholder="Enter Product description"
                                             rows="3"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Price</label>
+
+                                    <input
+                                            type="number"
+                                            name="price"
+                                            class="form-control"
+                                            step="0.01"
+                                            required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Stock</label>
+
+                                    <input
+                                            type="number"
+                                            name="stock"
+                                            class="form-control"
+                                            min="0"
+                                            required>
                                 </div>
                                 <div class="form-group">
                                     <label for="image">Image</label>
@@ -265,7 +351,7 @@
                             <div class="modal-footer">
                                 <button class="btn btn-secondary" data-dismiss="modal" type="button"> Cancel</button>
                                 <button class="btn btn-primary" type="submit"><i class="fas fa-save mr-1"></i> Save
-                                    Category
+                                    Product
                                 </button>
                             </div>
                         </form>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>NovaCart | Shop Smarter</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <!-- Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+          rel="stylesheet">
+
+    <!-- CSS -->
+    <link href="{% static 'css/home.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{%static 'css/shop.css' %}">
+    {%block extra_css%}{%endblock%}
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+
+{% include 'shop/layout/header.html'%}
+
+<!-- ================= HERO ================= -->
+{% block content %}
+{% endblock %}
+<!-- ================= NEWSLETTER ================= -->
+
+<section class="newsletter">
+
+    <div class="newsletter-container">
+
+        <div>
+
+            <span class="eyebrow">
+                STAY IN THE LOOP
+            </span>
+
+            <h2>Get the good stuff.</h2>
+
+            <p>
+                New arrivals, exclusive offers and inspiration.
+                Straight to your inbox.
+            </p>
+
+        </div>
+
+
+        <form class="newsletter-form">
+
+            <input
+                    placeholder="Enter your email address"
+                    type="email"
+            >
+
+            <button type="submit">
+                Subscribe
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= CART TOAST ================= -->
+
+{% if messages %}
+<div class="toast-container">
+
+    {% for message in messages %}
+
+    <div class="cart-toast">
+
+        <div class="toast-icon">
+            <i class="fa-solid fa-check"></i>
+        </div>
+
+        <div class="toast-content">
+            <span>{{ message }}</span>
+        </div>
+
+        <button
+                type="button"
+                class="toast-close"
+                onclick="closeToast(this)">
+
+            <i class="fa-solid fa-xmark"></i>
+
+        </button>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+{% endif %}
+<!-- ================= FOOTER ================= -->
+
+{% include 'shop/layout/footer.html'%}
+<script>
+
+    function toggleUserDropdown() {
+
+        const dropdown = document.getElementById("userDropdown");
+
+        if (!dropdown) {
+            return;
+        }
+
+        dropdown.classList.toggle("show");
+
+    }
+
+
+    /* Close dropdown when clicking outside */
+
+    document.addEventListener("click", function (event) {
+
+        const userMenu = document.querySelector(".user-menu");
+        const dropdown = document.getElementById("userDropdown");
+
+        if (!userMenu || !dropdown) {
+            return;
+        }
+
+        if (!userMenu.contains(event.target)) {
+
+            dropdown.classList.remove("show");
+
+        }
+
+    });
+
+</script>
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const toasts = document.querySelectorAll(".cart-toast");
+
+        toasts.forEach(function (toast) {
+
+            setTimeout(function () {
+
+                toast.style.animation =
+                    "toastSlideOut 0.3s ease forwards";
+
+                setTimeout(function () {
+
+                    toast.remove();
+
+                }, 300);
+
+            }, 3500);
+
+        });
+
+    });
+
+
+    function closeToast(button) {
+
+        const toast = button.closest(".cart-toast");
+
+        if (!toast) {
+            return;
+        }
+
+        toast.style.animation =
+            "toastSlideOut 0.3s ease forwards";
+
+        setTimeout(function () {
+
+            toast.remove();
+
+        }, 300);
+
+    }
+
+</script>
+</body>
+</html>

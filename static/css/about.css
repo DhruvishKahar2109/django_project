@@ -1,0 +1,77 @@
+.about-hero {
+    padding: 100px 11%;
+    background: #f6f6f6;
+}
+
+.about-hero span,
+.about-story span,
+.why-heading span {
+    color: #ff4d2e;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.about-hero h1 {
+    font-size: 64px;
+    line-height: 1.05;
+    margin: 18px 0;
+}
+
+.about-hero p {
+    max-width: 600px;
+    color: #777;
+    font-size: 17px;
+}
+
+.about-story {
+    padding: 100px 11%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+}
+
+.about-story h2 {
+    font-size: 42px;
+    margin-top: 15px;
+}
+
+.about-story p {
+    color: #666;
+    line-height: 1.8;
+}
+
+.why-section {
+    background: #f6f6f6;
+    padding: 90px 11%;
+}
+
+.why-heading h2 {
+    font-size: 42px;
+    margin: 12px 0 40px;
+}
+
+.why-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.why-card {
+    background: white;
+    padding: 30px;
+    border-radius: 14px;
+}
+
+.why-card i {
+    font-size: 25px;
+}
+
+.why-card h3 {
+    margin: 20px 0 10px;
+}
+
+.why-card p {
+    color: #777;
+    line-height: 1.6;
+}

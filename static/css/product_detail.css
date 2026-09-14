@@ -1,0 +1,911 @@
+/* =========================================
+   PRODUCT DETAIL PAGE
+========================================= */
+
+.product-detail-page {
+    padding: 55px 0 90px;
+    background: #fff;
+}
+
+.product-detail-container {
+    width: 1200px;
+    max-width: 90%;
+    margin: 0 auto;
+}
+
+
+/* =========================================
+   BREADCRUMB
+========================================= */
+
+.product-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 40px;
+
+    font-size: 14px;
+    color: #888;
+}
+
+.product-breadcrumb a {
+    color: #555;
+    text-decoration: none;
+}
+
+.product-breadcrumb a:hover {
+    color: #ff573d;
+}
+
+.product-breadcrumb span:last-child {
+    color: #222;
+    font-weight: 500;
+}
+
+
+/* =========================================
+   MAIN PRODUCT
+========================================= */
+
+.product-detail {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 75px;
+    align-items: start;
+}
+
+
+/* =========================================
+   PRODUCT IMAGE
+========================================= */
+
+.product-main-image {
+    position: relative;
+
+    width: 100%;
+    height: 570px;
+
+    border-radius: 18px;
+    overflow: hidden;
+
+    background: #f6f6f6;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-main-image img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+}
+
+
+.detail-stock-badge {
+    position: absolute;
+
+    top: 20px;
+    left: 20px;
+
+    padding: 9px 15px;
+
+    border-radius: 6px;
+
+    background: #fff;
+
+    color: #111;
+
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .4px;
+}
+
+.detail-stock-badge.sold-out {
+    background: #111;
+    color: #fff;
+}
+
+
+.detail-no-image {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+
+    color: #999;
+}
+
+.detail-no-image i {
+    font-size: 55px;
+}
+
+
+/* =========================================
+   PRODUCT INFORMATION
+========================================= */
+
+.product-detail-right {
+    padding-top: 10px;
+}
+
+.product-detail-category {
+    display: inline-block;
+
+    margin-bottom: 15px;
+
+    color: #ff573d;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+
+.product-detail-right h1 {
+    margin: 0 0 15px;
+
+    color: #111;
+
+    font-family: "Plus Jakarta Sans", sans-serif;
+
+    font-size: 42px;
+    line-height: 1.15;
+    font-weight: 800;
+}
+
+
+/* =========================================
+   RATING
+========================================= */
+
+.product-rating {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    margin-bottom: 25px;
+
+    font-size: 14px;
+}
+
+.stars {
+    color: #ffb400;
+    letter-spacing: 2px;
+}
+
+.review-count {
+    color: #888;
+}
+
+
+/* =========================================
+   PRICE
+========================================= */
+
+.product-price {
+    margin-bottom: 25px;
+
+    color: #111;
+
+    font-size: 30px;
+    font-weight: 700;
+}
+
+
+/* =========================================
+   DESCRIPTION
+========================================= */
+
+.product-description {
+    max-width: 600px;
+
+    margin: 0;
+
+    color: #666;
+
+    font-size: 16px;
+    line-height: 1.8;
+}
+
+
+.product-divider {
+    width: 100%;
+    height: 1px;
+
+    margin: 28px 0;
+
+    background: #e8e8e8;
+}
+
+
+/* =========================================
+   STOCK
+========================================= */
+
+.stock-info {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    margin-bottom: 25px;
+
+    color: #228b55;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.stock-info i {
+    font-size: 16px;
+}
+
+.stock-info.out {
+    color: #e53935;
+}
+
+
+/* =========================================
+   QUANTITY
+========================================= */
+
+.quantity-section {
+    margin-bottom: 25px;
+}
+
+.quantity-section label {
+    display: block;
+
+    margin-bottom: 10px;
+
+    color: #222;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.quantity-control {
+    display: flex;
+    align-items: center;
+
+    width: 145px;
+    height: 48px;
+
+    border: 1px solid #ddd;
+    border-radius: 8px;
+
+    overflow: hidden;
+}
+
+.quantity-control button {
+    width: 45px;
+    height: 100%;
+
+    border: none;
+
+    background: #fff;
+
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.quantity-control button:hover {
+    background: #f5f5f5;
+}
+
+.quantity-control input {
+    width: 55px;
+    height: 100%;
+
+    border: none;
+
+    text-align: center;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    outline: none;
+}
+
+
+/* =========================================
+   ACTION BUTTONS
+========================================= */
+
+.product-actions {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 35px;
+}
+
+
+/* =========================================
+   COMMON BUTTON STYLE
+========================================= */
+
+.add-to-cart-btn,
+.buy-now-btn {
+    flex: 1;
+
+    height: 52px;
+    padding: 0 22px;
+
+    border-radius: 8px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+
+    font-size: 15px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    text-decoration: none;
+
+    transition:
+            background 0.2s ease,
+            color 0.2s ease,
+            border-color 0.2s ease,
+            transform 0.2s ease;
+}
+
+
+/* =========================================
+   ADD TO CART
+========================================= */
+
+.add-to-cart-btn {
+    border: 1px solid #111;
+    background: #111;
+    color: #fff;
+}
+
+.add-to-cart-btn i {
+    font-size: 14px;
+}
+
+.add-to-cart-btn:hover {
+    background: #ff573d;
+    border-color: #ff573d;
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+
+/* =========================================
+   BUY NOW
+========================================= */
+
+.buy-now-btn {
+    border: 1px solid #111;
+    background: #fff;
+    color: #111;
+}
+
+.buy-now-btn i {
+    font-size: 14px;
+    transition: transform 0.2s ease;
+}
+
+.buy-now-btn:hover {
+    background: #111;
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+.buy-now-btn:hover i {
+    transform: translateX(4px);
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+    .product-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .add-to-cart-btn,
+    .buy-now-btn {
+        width: 100%;
+    }
+}
+
+
+/* =========================================
+   BENEFITS
+========================================= */
+
+.product-benefits {
+    border-top: 1px solid #eee;
+    padding-top: 25px;
+}
+
+.benefit-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    margin-bottom: 20px;
+}
+
+.benefit-icon {
+    width: 42px;
+    height: 42px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 8px;
+
+    background: #fff0ed;
+    color: #ff573d;
+}
+
+.benefit-item div:last-child {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.benefit-item strong {
+    color: #222;
+    font-size: 14px;
+}
+
+.benefit-item span {
+    color: #888;
+    font-size: 13px;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 900px) {
+
+    .product-detail {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .product-main-image {
+        height: 450px;
+    }
+
+    .product-detail-right h1 {
+        font-size: 34px;
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    .product-detail-container {
+        max-width: 92%;
+    }
+
+    .product-main-image {
+        height: 350px;
+    }
+
+    .product-detail-right h1 {
+        font-size: 28px;
+    }
+
+    .product-actions {
+        flex-direction: column;
+    }
+
+    .product-breadcrumb {
+        margin-bottom: 25px;
+    }
+}
+
+/* =========================================================
+   PREMIUM PRODUCT IMAGE ZOOM
+========================================================= */
+
+.product-image-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+
+/* =========================================================
+   MAIN IMAGE
+========================================================= */
+
+.product-main-image {
+    position: relative;
+
+    width: 100%;
+    height: 560px;
+
+    overflow: hidden;
+
+    border-radius: 18px;
+
+    background: #f7f7f7;
+
+    cursor: crosshair;
+
+    box-shadow:
+            0 12px 35px rgba(0, 0, 0, 0.07),
+            0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+
+.product-main-image img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+    transition:
+            transform 0.25s ease;
+
+    user-select: none;
+
+    -webkit-user-drag: none;
+}
+
+
+/* =========================================================
+   MAGNIFYING LENS
+========================================================= */
+
+.zoom-lens {
+    position: absolute;
+
+    width: 150px;
+    height: 150px;
+
+    display: none;
+
+    pointer-events: none;
+
+    border-radius: 50%;
+
+    border: 2px solid rgba(255, 255, 255, 0.95);
+
+    background:
+            radial-gradient(
+                    circle at 35% 30%,
+                    rgba(255, 255, 255, 0.30),
+                    rgba(255, 255, 255, 0.08) 45%,
+                    rgba(255, 255, 255, 0.02) 70%
+            );
+
+    box-shadow:
+            0 8px 25px rgba(0, 0, 0, 0.20),
+            0 0 0 1px rgba(0, 0, 0, 0.08),
+            inset 0 0 20px rgba(255, 255, 255, 0.20);
+
+    backdrop-filter: blur(1px);
+
+    z-index: 20;
+
+    transform: translateZ(0);
+}
+
+
+/* Small reflection inside lens */
+
+.zoom-lens::after {
+    content: "";
+
+    position: absolute;
+
+    width: 35px;
+    height: 15px;
+
+    top: 20px;
+    left: 25px;
+
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.35);
+
+    transform: rotate(-35deg);
+
+    filter: blur(2px);
+}
+
+
+/* =========================================================
+   ZOOM PREVIEW
+========================================================= */
+
+.zoom-preview {
+
+    position: absolute;
+
+    top: 0;
+
+    left: calc(100% + 22px);
+
+    width: 520px;
+    height: 520px;
+
+    background: #ffffff;
+
+    border-radius: 18px;
+
+    overflow: hidden;
+
+    border: 1px solid rgba(0, 0, 0, 0.08);
+
+    box-shadow:
+            0 25px 70px rgba(0, 0, 0, 0.18),
+            0 5px 20px rgba(0, 0, 0, 0.08);
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    pointer-events: none;
+
+    transform:
+            translateX(15px)
+            scale(0.97);
+
+    transform-origin: left center;
+
+    transition:
+            opacity 0.18s ease,
+            transform 0.18s ease,
+            visibility 0.18s ease;
+
+    z-index: 9999;
+}
+
+
+/* Active preview */
+
+.zoom-preview.active {
+
+    opacity: 1;
+
+    visibility: visible;
+
+    transform:
+            translateX(0)
+            scale(1);
+
+}
+
+
+/* =========================================================
+   ZOOMED IMAGE
+========================================================= */
+
+.zoom-preview-image {
+
+    width: 100%;
+    height: 100%;
+
+    background-repeat: no-repeat;
+
+    background-color: #ffffff;
+
+}
+
+
+/* =========================================================
+   ZOOM LABEL
+========================================================= */
+
+.zoom-label {
+
+    position: absolute;
+
+    left: 50%;
+
+    bottom: 18px;
+
+    transform: translateX(-50%);
+
+    padding: 9px 14px;
+
+    border-radius: 30px;
+
+    background: rgba(17, 17, 17, 0.82);
+
+    color: #ffffff;
+
+    font-size: 11px;
+
+    font-weight: 500;
+
+    white-space: nowrap;
+
+    backdrop-filter: blur(10px);
+
+    box-shadow:
+            0 5px 20px rgba(0, 0, 0, 0.18);
+}
+
+
+.zoom-label i {
+
+    margin-right: 6px;
+
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   NO IMAGE
+========================================================= */
+
+.detail-no-image {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-direction: column;
+
+    gap: 12px;
+
+    cursor: default;
+}
+
+
+.detail-no-image i {
+
+    font-size: 45px;
+
+    opacity: 0.25;
+}
+
+
+.detail-no-image span {
+
+    font-size: 14px;
+
+    color: #888;
+}
+
+
+/* =========================================================
+   STOCK BADGE
+========================================================= */
+
+.detail-stock-badge {
+
+    position: absolute;
+
+    top: 16px;
+
+    left: 16px;
+
+    z-index: 30;
+
+    padding: 9px 14px;
+
+    background: rgba(255, 255, 255, 0.96);
+
+    color: #111111;
+
+    border-radius: 8px;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.5px;
+
+    box-shadow:
+            0 5px 18px rgba(0, 0, 0, 0.10);
+
+    backdrop-filter: blur(8px);
+}
+
+
+.detail-stock-badge.sold-out {
+
+    color: #ffffff;
+
+    background: #111111;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1300px) {
+
+    .zoom-preview {
+
+        width: 450px;
+
+        height: 450px;
+
+    }
+
+}
+
+
+@media (max-width: 1100px) {
+
+    .zoom-preview {
+
+        width: 400px;
+
+        height: 400px;
+
+        left: calc(100% + 15px);
+
+    }
+
+}
+
+
+@media (max-width: 900px) {
+
+    .zoom-preview {
+
+        display: none !important;
+
+    }
+
+    .zoom-lens {
+
+        display: none !important;
+
+    }
+
+    .product-main-image {
+
+        cursor: default;
+
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .product-main-image {
+
+        height: 380px;
+
+        border-radius: 14px;
+
+    }
+
+}
+
+
+@media (max-width: 450px) {
+
+    .product-main-image {
+
+        height: 320px;
+
+        border-radius: 12px;
+
+    }
+
+}

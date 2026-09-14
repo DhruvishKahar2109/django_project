@@ -1,0 +1,93 @@
+{% extends 'shop/layout/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/deals.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="deals-page">
+
+    <div class="deals-banner">
+
+        <span>LIMITED TIME OFFER</span>
+
+        <h1>
+            Big deals.<br>
+            Better prices.
+        </h1>
+
+        <p>
+            Save more on selected products.
+        </p>
+
+    </div>
+
+
+    <div class="deals-header">
+
+        <div>
+            <span>SALE</span>
+            <h2>Today's Deals</h2>
+        </div>
+
+        <div class="deal-timer">
+            Ends in <strong>08 : 42 : 15</strong>
+        </div>
+
+    </div>
+
+
+    <div class="deal-grid">
+
+        {% for product in deal_products %}
+
+        <div class="deal-card">
+
+            <div class="deal-image">
+
+                <span class="discount">
+                    -{{ product.discount }}%
+                </span>
+
+                <img src="{{ product.image.url }}"
+                     alt="{{ product.name }}">
+
+            </div>
+
+            <div class="deal-info">
+
+                <span>
+                    {{ product.category.name }}
+                </span>
+
+                <h3>{{ product.name }}</h3>
+
+                <div class="prices">
+
+                    <strong>
+                        ₹{{ product.sale_price }}
+                    </strong>
+
+                    <del>
+                        ₹{{ product.price }}
+                    </del>
+
+                </div>
+
+                <a href="{% url 'shop_details' product.slug %}">
+                    View Deal →
+                </a>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endblock %}
