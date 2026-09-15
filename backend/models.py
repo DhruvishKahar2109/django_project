@@ -9,7 +9,7 @@ class Category(models.Model):
     parent_category = OrderedForeignKey('self', on_delete=models.CASCADE, related_name='sub_categories', blank=True,
                                         null=True, after='slug')
     description = models.TextField(blank=True)
-    imageName = models.CharField(max_length=255)
+    imageName = models.CharField(max_length=255,blank=True,null=True)
     image = CloudinaryField('image',folder='categories/', blank=True, null=True)
     is_active = models.BooleanField(default=True)
     sort_order = models.PositiveIntegerField(default=0)
@@ -33,7 +33,7 @@ class Product(models.Model):
     slug = models.SlugField(unique=True,blank=True)
     description = models.TextField(blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    imageName = models.CharField(max_length=255)
+    imageName = models.CharField(max_length=255,blank=True,null=True)
     image = CloudinaryField("image",folder='products/', blank=True, null=True)
     stock = models.PositiveIntegerField(default=0)
     is_active = models.BooleanField(default=True)
