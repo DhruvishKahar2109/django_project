@@ -49,7 +49,14 @@ def admin_login(request):
 
 @login_required
 def dashboard(request):
-    return render(request, "dashboard.html")
+    totalOrders = Order.objects.all().count()
+    totalProducts = Product.objects.all().count()
+    totalCustomers = Customer.objects.all().count()
+    return render(request, "dashboard.html",{
+        "totalOrders": totalOrders,
+        "totalProducts": totalProducts,
+        "totalCustomers": totalCustomers
+    })
 
 
 @login_required
