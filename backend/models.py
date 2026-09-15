@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
 from .fields import OrderedForeignKey
+from cloudinary.models import CloudinaryField
 
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -8,7 +9,8 @@ class Category(models.Model):
     parent_category = OrderedForeignKey('self', on_delete=models.CASCADE, related_name='sub_categories', blank=True,
                                         null=True, after='slug')
     description = models.TextField(blank=True)
-    image = models.ImageField(upload_to='categories/', blank=True, null=True)
+    imageName = models.CharField(max_length=255)
+    image = models.CloudinaryField('image',upload_to='categories/', blank=True, null=True)
     is_active = models.BooleanField(default=True)
     sort_order = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -31,7 +33,8 @@ class Product(models.Model):
     slug = models.SlugField(unique=True,blank=True)
     description = models.TextField(blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    image = models.ImageField(upload_to='products/', blank=True, null=True)
+    imageName = models.CharField(max_length=255)
+    image = models.CloudinaryField("image",upload_to='products/', blank=True, null=True)
     stock = models.PositiveIntegerField(default=0)
     is_active = models.BooleanField(default=True)
 
