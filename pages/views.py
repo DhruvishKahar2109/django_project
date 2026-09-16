@@ -484,40 +484,40 @@ def shop_login(request):
         password = request.POST.get('password','')
 
         #reCapTCHA
-        # recaptcha_response = request.POST.get('g-recaptcha-response')
-        # if not recaptcha_response:
-        #     messages.error(
-        #         request,
-        #         'Please complete the reCAPTCHA verification.'
-        #     )
-        #     return redirect('shop_login')
-        # try:
-        #
-        #     captcha_response = requests.post(
-        #         'https://www.google.com/recaptcha/api/siteverify',
-        #         data={
-        #             'secret': settings.RECAPTCHA_SECRET_KEY,
-        #             'response': recaptcha_response,
-        #             'remoteip': request.META.get('REMOTE_ADDR'),
-        #         },
-        #         timeout=10
-        #     )
-        #
-        #     captcha_result = captcha_response.json()
-        #
-        # except requests.RequestException:
-        #     messages.error(
-        #         request,
-        #         'reCAPTCHA verification failed. Please try again.'
-        #     )
-        #     return redirect('shop_login')
-        #
-        # if not captcha_result.get('success'):
-        #     messages.error(
-        #         request,
-        #         'reCAPTCHA verification failed. Please try again.'
-        #     )
-        #     return redirect('shop_login')
+        recaptcha_response = request.POST.get('g-recaptcha-response')
+        if not recaptcha_response:
+            messages.error(
+                request,
+                'Please complete the reCAPTCHA verification.'
+            )
+            return redirect('shop_login')
+        try:
+
+            captcha_response = requests.post(
+                'https://www.google.com/recaptcha/api/siteverify',
+                data={
+                    'secret': settings.RECAPTCHA_SECRET_KEY,
+                    'response': recaptcha_response,
+                    'remoteip': request.META.get('REMOTE_ADDR'),
+                },
+                timeout=10
+            )
+
+            captcha_result = captcha_response.json()
+
+        except requests.RequestException:
+            messages.error(
+                request,
+                'reCAPTCHA verification failed. Please try again.'
+            )
+            return redirect('shop_login')
+
+        if not captcha_result.get('success'):
+            messages.error(
+                request,
+                'reCAPTCHA verification failed. Please try again.'
+            )
+            return redirect('shop_login')
 
         #customer login
         try:
