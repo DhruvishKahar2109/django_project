@@ -11,6 +11,8 @@ from django.contrib import messages
 from django.utils import timezone
 from django.contrib.auth.hashers import make_password, check_password
 from decimal import Decimal
+import requests
+from django.conf import settings
 
 
 # Create your views here.
@@ -490,9 +492,46 @@ def shop_login(request):
         return redirect('shop_home')
 
     if request.method == 'POST':
-        email = request.POST['email']
-        password = request.POST['password']
+        email = request.POST.get('email','').strip()
+        password = request.POST.get('password','')
 
+        #reCapTCHA
+        recaptcha_response = request.POST.get('g-recaptcha-response')
+        if not recaptcha_response:
+            messages.error(
+                request,
+                'Please complete the reCAPTCHA verification.'
+            )
+            return redirect('shop_login')
+        try:
+
+            captcha_response = requests.post(
+                'https://www.google.com/recaptcha/api/siteverify',
+                data={
+                    'secret': settings.RECAPTCHA_SECRET_KEY,
+                    'response': recaptcha_response,
+                    'remoteip': request.META.get('REMOTE_ADDR'),
+                },
+                timeout=10
+            )
+
+            captcha_result = captcha_response.json()
+
+        except requests.RequestException:
+            messages.error(
+                request,
+                'reCAPTCHA verification failed. Please try again.'
+            )
+            return redirect('shop_login')
+
+        if not captcha_result.get('success'):
+            messages.error(
+                request,
+                'reCAPTCHA verification failed. Please try again.'
+            )
+            return redirect('shop_login')
+
+        #customer login
         try:
             customer = Customer.objects.get(email=email)
 
@@ -515,18 +554,68 @@ def shop_login(request):
             messages.error(request, 'Invalid email or password')
             return redirect('shop_login')
 
-    return render(request, 'shop/login.html')
+    return render(request, 'shop/login.html',{
+        'recaptcha_site_key': settings.RECAPTCHA_SITE_KEY,
+    })
 
 
 def shop_register(request):
     if request.method == 'POST':
-        firstname = request.POST['first_name']
-        lastname = request.POST['last_name']
-        username = request.POST['username']
-        email = request.POST['email']
-        password = request.POST['password']
-        confirmation = request.POST['confirm_password']
+        firstname = request.POST.get('first_name','').strip()
+        lastname = request.POST.get('last_name','').strip()
+        username = request.POST.get('username','').strip()
+        email = request.POST.get('email','').strip()
+        password = request.POST.get('password','')
+        confirmation = request.POST.get('confirm_password','')
 
+        #reCaptcha
+
+        recaptcha_response = request.POST.get(
+            'g-recaptcha-response'
+        )
+
+        if not recaptcha_response:
+
+            messages.error(
+                request,
+                'Please complete the reCAPTCHA verification.'
+            )
+
+            return redirect('shop_register')
+
+        try:
+
+            captcha_response = requests.post(
+                'https://www.google.com/recaptcha/api/siteverify',
+                data={
+                    'secret': settings.RECAPTCHA_SECRET_KEY,
+                    'response': recaptcha_response,
+                    'remoteip': request.META.get('REMOTE_ADDR'),
+                },
+                timeout=10
+            )
+
+            captcha_result = captcha_response.json()
+
+        except requests.RequestException:
+
+            messages.error(
+                request,
+                'reCAPTCHA verification failed. Please try again.'
+            )
+
+            return redirect('shop_register')
+
+        if not captcha_result.get('success'):
+
+            messages.error(
+                request,
+                'reCAPTCHA verification failed. Please try again.'
+            )
+
+            return redirect('shop_register')
+
+        #password code
         if password != confirmation:
             messages.error(request, 'Passwords do not match')
             return redirect('shop_register')
@@ -546,7 +635,9 @@ def shop_register(request):
 
         messages.success(request, 'Registration successful.Please Login.')
         return redirect('shop_login')
-    return render(request, 'shop/register.html')
+    return render(request, 'shop/register.html',{
+        'recaptcha_site_key': settings.RECAPTCHA_SITE_KEY,
+    })
 
 
 def my_profile(request):

@@ -169,3 +169,6 @@ cloudinary.config(
     api_key=os.getenv("CLOUDINARY_API_KEY"),
     api_secret=os.getenv("CLOUDINARY_API_SECRET"),
 )
+
+RECAPTCHA_SITE_KEY = os.getenv("RECAPTCHA_SITE_KEY","")
+RECAPTCHA_SECRET_KEY = os.getenv("RECAPTCHA_SECRET_KEY","")

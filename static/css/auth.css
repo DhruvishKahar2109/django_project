@@ -895,3 +895,18 @@ a {
     display: flex;
     gap: 15px;
 }
+.recaptcha-wrapper {
+    margin: 18px 0;
+}
+
+.recaptcha-wrapper .g-recaptcha {
+    display: flex;
+    justify-content: flex-start;
+}
+@media (max-width: 500px) {
+
+    .recaptcha-wrapper {
+        overflow-x: auto;
+    }
+
+}
