@@ -315,11 +315,39 @@ def orders(request):
 def order_detail(request,id):
     order = get_object_or_404(Order.objects.select_related('customer'), id=id)
 
+    if request.method == "POST":
+        new_status = request.POST.get("status")
+
+        status_field = Order._meta.get_field("status")
+
+        allowed_status = {
+            value
+            for value,label in status_field.choices
+        }
+
+        if new_status in allowed_status:
+            Order.objects.filter(id=order.id).update(status=new_status)
+
+            messages.success(
+                request,
+                f"Order Status updated to {dict(status_field.choices)[new_status]}"
+            )
+
+            return redirect("order_detail", id=order.id)
+        else:
+            messages.error(
+                request,
+                "Invalid order status."
+            )
+
     order_items = OrderItem.objects.filter(order_id=order.id).order_by("id")
+
+    all_status = Order._meta.get_field("status").choices
 
     return render(request, "order_detail.html", {
         "order": order,
-        "order_items": order_items
+        "order_items": order_items,
+        'allStatus':all_status
     })
 
 def admin_logout(request):

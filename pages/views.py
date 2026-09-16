@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
-from django.template import loader
+from django.template.loader import render_to_string
 from .models import Service, Customer, Cart, CartItem, Order, OrderItem
 from backend.models import Category, Product
 from django.contrib.auth import authenticate, login, logout
@@ -13,6 +13,7 @@ from django.contrib.auth.hashers import make_password, check_password
 from decimal import Decimal
 import requests
 from django.conf import settings
+from django.core.mail import send_mail,EmailMultiAlternatives
 
 
 # Create your views here.
@@ -23,35 +24,25 @@ def pages(request):
 
 # create HTML function with renader
 def home(request):
-    template = loader.get_template('home.html')
-    return HttpResponse(template.render())
+    return render(request, "home.html")
 
 
 def about(request):
-    template = loader.get_template('about.html')
-    return HttpResponse(template.render())
+    return render(request, "about.html")
 
 
 def services(request):
     allServices = Service.objects.all()
-    template = loader.get_template('services.html')
-    return HttpResponse(template.render({
-        'services': allServices
-    })
-    )
+    return render(request, 'services.html', {'allServices': allServices})
 
 
 def details(request, id):
     myService = Service.objects.get(id=id)
-    template = loader.get_template('details.html')
-    return HttpResponse(template.render({
-        'myService': myService
-    }))
+    return render(request, 'details.html', {'myService': myService})
 
 
 def contact(request):
-    template = loader.get_template('contact.html')
-    return HttpResponse(template.render())
+    return render(request, 'contact.html')
 
 
 def login_view(request):
@@ -66,8 +57,7 @@ def login_view(request):
         else:
             print("Login failed")
             return HttpResponse("Invaild credentials")
-    template = loader.get_template('admin_login.html')
-    return HttpResponse(template.render({}, request))
+    return render(request, 'login.html')
 
 
 def register_view(request):
@@ -94,8 +84,7 @@ def register_view(request):
         user.save()
         messages.success(request, 'User created successfully')
         return redirect('login')
-    template = loader.get_template('register.html')
-    return HttpResponse(template.render({}, request))
+    return render(request, 'register.html')
 
 
 @login_required
@@ -113,29 +102,24 @@ def employee_profile(request):
 
         return redirect('employee_profile')
 
-    template = loader.get_template('employee_profile.html')
-    return HttpResponse(template.render({
-        'user': user
-    }, request))
+    return render(request, 'employee_profile.html',{
+        'user':user
+    })
 
 
 @login_required
 def all_users(request):
     all_user = User.objects.all()
-    template = loader.get_template('all_users.html')
-    return HttpResponse(template.render({
-        'all_user': all_user
-    }, request))
+    return render(request, 'all_users.html', {'all_users': all_user})
 
 
 def shop_home(request):
     Categories = Category.objects.filter(is_active=True)
     Products = Product.objects.filter(is_active=True).select_related('category')
-    template = loader.get_template('shop/home.html')
-    return HttpResponse(template.render({
+    return render(request, 'shop/home.html', {
         'categories': Categories,
         'products': Products
-    }, request))
+    })
 
 
 def shop_list(request):
@@ -433,6 +417,10 @@ def checkout(request):
                 )
             cart.items.all().delete()
 
+        transaction.on_commit(
+            lambda: send_order_confirmation_email(order)
+        )
+
         messages.success(
             request,
             f"Order {order.order_number} Place Successfully."
@@ -496,40 +484,40 @@ def shop_login(request):
         password = request.POST.get('password','')
 
         #reCapTCHA
-        recaptcha_response = request.POST.get('g-recaptcha-response')
-        if not recaptcha_response:
-            messages.error(
-                request,
-                'Please complete the reCAPTCHA verification.'
-            )
-            return redirect('shop_login')
-        try:
-
-            captcha_response = requests.post(
-                'https://www.google.com/recaptcha/api/siteverify',
-                data={
-                    'secret': settings.RECAPTCHA_SECRET_KEY,
-                    'response': recaptcha_response,
-                    'remoteip': request.META.get('REMOTE_ADDR'),
-                },
-                timeout=10
-            )
-
-            captcha_result = captcha_response.json()
-
-        except requests.RequestException:
-            messages.error(
-                request,
-                'reCAPTCHA verification failed. Please try again.'
-            )
-            return redirect('shop_login')
-
-        if not captcha_result.get('success'):
-            messages.error(
-                request,
-                'reCAPTCHA verification failed. Please try again.'
-            )
-            return redirect('shop_login')
+        # recaptcha_response = request.POST.get('g-recaptcha-response')
+        # if not recaptcha_response:
+        #     messages.error(
+        #         request,
+        #         'Please complete the reCAPTCHA verification.'
+        #     )
+        #     return redirect('shop_login')
+        # try:
+        #
+        #     captcha_response = requests.post(
+        #         'https://www.google.com/recaptcha/api/siteverify',
+        #         data={
+        #             'secret': settings.RECAPTCHA_SECRET_KEY,
+        #             'response': recaptcha_response,
+        #             'remoteip': request.META.get('REMOTE_ADDR'),
+        #         },
+        #         timeout=10
+        #     )
+        #
+        #     captcha_result = captcha_response.json()
+        #
+        # except requests.RequestException:
+        #     messages.error(
+        #         request,
+        #         'reCAPTCHA verification failed. Please try again.'
+        #     )
+        #     return redirect('shop_login')
+        #
+        # if not captcha_result.get('success'):
+        #     messages.error(
+        #         request,
+        #         'reCAPTCHA verification failed. Please try again.'
+        #     )
+        #     return redirect('shop_login')
 
         #customer login
         try:
@@ -728,3 +716,49 @@ def shop_categories(request):
 def shop_deals(request):
     deal_products = Product.objects.all()
     return render(request, 'shop/deals.html', {'deal_products': deal_products})
+
+
+def forgot_password(request):
+    return render(request, 'shop/forgot_password.html')
+
+
+
+
+def send_order_confirmation_email(order):
+    subject = f"Order Confirmed - {order.order_number}"
+
+    html_content = render_to_string(
+        'shop/email/order_confirmation.html',
+        {
+            'order':order
+        }
+    )
+
+    email = EmailMultiAlternatives(
+        subject=subject,
+        body=f"""
+                Hello {order.first_name},
+                
+                Your order {order.order_number} has been successfully confirmed.
+                
+                Total Amount: ₹{order.total}
+                
+                Thank you for shopping with us.
+                """,
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        to=[order.email],
+    )
+    email.attach_alternative(html_content, "text/html")
+
+    email.send(fail_silently=False)
+
+def test_email(request):
+    send_mail(
+        subject='Django E-commerce Test Email',
+        message= 'Hi my name dhruvish kahar i am working on django project now working test email sent successfully.',
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        recipient_list=["dhruvishkahar2109@gmail.com"],
+        fail_silently=False,
+    )
+
+    return HttpResponse("Test email sent Successfully.")

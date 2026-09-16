@@ -167,54 +167,96 @@
 
 
                                     <p>
+                                            <strong>Status</strong>
+                                            {% if order.status == "pending" %}
 
-                                        <strong>Status:</strong>
+                                            <span class="badge badge-warning">
+                                                        <i class="fas fa-clock mr-1"></i>
+                                                        Pending
+                                                    </span>
 
-                                        {% if order.status == "pending" %}
+                                            {% elif order.status == "confirmed" %}
 
-                                        <span class="badge badge-warning">
-                                                Pending
-                                            </span>
+                                            <span class="badge badge-success">
+                                                        <i class="fas fa-check-circle mr-1"></i>
+                                                        Confirmed
+                                                    </span>
 
-                                        {% elif order.status == "confirmed" %}
-                                        <span class="badge badge-success">
-                                            Confirmed
-                                        </span>
+                                            {% elif order.status == "processing" %}
 
-                                        {% elif order.status == "processing" %}
+                                            <span class="badge badge-info">
+                                                        <i class="fas fa-box mr-1"></i>
+                                                        Processing
+                                                    </span>
 
-                                        <span class="badge badge-info">
-                                                Processing
-                                            </span>
+                                            {% elif order.status == "shipped" %}
 
-                                        {% elif order.status == "shipped" %}
+                                            <span class="badge badge-primary">
+                                                        <i class="fas fa-truck mr-1"></i>
+                                                        Shipped
+                                                    </span>
 
-                                        <span class="badge badge-primary">
-                                                Shipped
-                                            </span>
+                                            {% elif order.status == "delivered" %}
 
-                                        {% elif order.status == "delivered" %}
+                                            <span class="badge badge-success">
+                                                        <i class="fas fa-check-double mr-1"></i>
+                                                        Delivered
+                                                    </span>
 
-                                        <span class="badge badge-success">
-                                                Delivered
-                                            </span>
+                                            {% elif order.status == "cancelled" %}
 
-                                        {% elif order.status == "cancelled" %}
+                                            <span class="badge badge-danger">
+                                                        <i class="fas fa-times-circle mr-1"></i>
+                                                        Cancelled
+                                                    </span>
 
-                                        <span class="badge badge-danger">
-                                                Cancelled
-                                            </span>
+                                            {% else %}
 
-                                        {% else %}
+                                            <span class="badge badge-secondary">
+                                                        {{ order.status|title }}
+                                                    </span>
 
-                                        <span class="badge badge-secondary">
-                                                {{ order.status }}
-                                            </span>
+                                            {% endif %}
 
-                                        {% endif %}
+                                            <!-- Update Status Form -->
 
+                                            <form method="POST" class="order-status-form d-flex justify-content-start">
+
+                                                {% csrf_token %}
+
+                                                <select
+                                                        name="status"
+                                                        class="form-control order-status-select w-50"
+                                                        required
+                                                >
+
+                                                    {% for value, label in allStatus %}
+
+                                                    <option
+                                                            value="{{ value }}"
+                                                            {% if order.status == value %}selected{% endif %}
+                                                    >
+                                                        {{ label }}
+                                                    </option>
+
+                                                    {% endfor %}
+
+                                                </select>
+
+
+                                                <button
+                                                        type="submit"
+                                                        class="btn btn-primary btn-sm order-status-btn ml-4"
+                                                        title="Update Order Status"
+                                                >
+
+                                                    <i class="fas fa-sync-alt mr-1"></i>
+                                                    Update
+
+                                                </button>
+
+                                            </form>
                                     </p>
-
 
                                     <p>
 

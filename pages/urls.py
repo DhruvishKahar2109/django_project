@@ -34,4 +34,8 @@ urlpatterns = [
     path('shop/about',views.shop_about,name='shop_about'),
     path('categories/', views.shop_categories, name='shop_categories'),
     path('deals/', views.shop_deals, name='shop_deals'),
+
+    path('shop/forgot_password',views.forgot_password,name='forgot_password'),
+
+    path('test-email/',views.test_email,name='test_email'),
 ]

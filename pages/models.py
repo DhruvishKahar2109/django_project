@@ -113,7 +113,7 @@ class Order(models.Model):
     address = models.TextField(blank=True, null=True)
     city = models.TextField(blank=True, null=True,max_length=100)
     state = models.TextField(blank=True, null=True,max_length=100)
-    pincode = models.IntegerField(blank=True, null=True,max_length=10)
+    pincode = models.IntegerField(blank=True, null=True)
     country = models.TextField(max_length=100,default='India')
     landmark = models.TextField(max_length=255,blank=True, null=True)
 
