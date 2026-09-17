@@ -95,15 +95,77 @@
 
                     <!-- QUANTITY -->
 
+                    <!-- ================= QUANTITY ================= -->
+
                     <div class="cart-quantity">
 
-                        <span>
-                            Quantity
-                        </span>
-
+    <span>
+        Quantity
+    </span>
 
                         <div class="quantity-control">
 
+                            {% if is_guest %}
+
+                            <!-- ================= GUEST CART ================= -->
+
+                            <!-- DECREASE -->
+
+                            <form
+                                    action="{% url 'guest_cart_update' item.product.id %}"
+                                    method="POST">
+
+                                {% csrf_token %}
+
+                                <input
+                                        type="hidden"
+                                        name="quantity"
+                                        value="{{ item.quantity|add:'-1' }}">
+
+                                <button
+                                        type="submit"
+                                        {% if item.quantity <= 1 %}
+                                disabled
+                                {% endif %}>
+
+                                −
+
+                                </button>
+
+                            </form>
+
+
+                            <span>
+                {{ item.quantity }}
+            </span>
+
+
+                            <!-- INCREASE -->
+
+                            <form
+                                    action="{% url 'guest_cart_update' item.product.id %}"
+                                    method="POST">
+
+                                {% csrf_token %}
+
+                                <input
+                                        type="hidden"
+                                        name="quantity"
+                                        value="{{ item.quantity|add:'1' }}">
+
+                                <button
+                                        type="submit">
+
+                                    +
+
+                                </button>
+
+                            </form>
+
+
+                            {% else %}
+
+                            <!-- ================= LOGGED-IN CART ================= -->
 
                             <!-- DECREASE -->
 
@@ -132,8 +194,8 @@
 
 
                             <span>
-                                {{ item.quantity }}
-                            </span>
+                {{ item.quantity }}
+            </span>
 
 
                             <!-- INCREASE -->
@@ -158,6 +220,8 @@
 
                             </form>
 
+                            {% endif %}
+
                         </div>
 
                     </div>
@@ -173,6 +237,30 @@
 
 
                     <!-- REMOVE -->
+
+                    <!-- ================= REMOVE ================= -->
+
+                    {% if is_guest %}
+
+                    <form
+                            action="{% url 'guest_cart_remove' item.product.id %}"
+                            method="POST"
+                            class="remove-cart-form">
+
+                        {% csrf_token %}
+
+                        <button
+                                type="submit"
+                                class="remove-cart-btn"
+                                title="Remove item">
+
+                            <i class="fa-solid fa-trash"></i>
+
+                        </button>
+
+                    </form>
+
+                    {% else %}
 
                     <form
                             action="{% url 'cart_remove' item.id %}"
@@ -191,6 +279,8 @@
                         </button>
 
                     </form>
+
+                    {% endif %}
 
 
                 </div>

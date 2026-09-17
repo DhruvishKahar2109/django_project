@@ -20,6 +20,8 @@ urlpatterns = [
     path('cart/add/<slug:slug>/',views.add_to_cart,name='add_to_cart'),
     path('cart/update/<int:item_id>/',views.cart_update,name='cart_update'),
     path('cart/remove/<int:item_id>/',views.cart_remove,name='cart_remove'),
+    path('cart/guest/update/<int:product_id>/',views.guest_cart_update,name='guest_cart_update'),
+    path('cart/guest/remove/<int:product_id>/',views.guest_cart_remove,name='guest_cart_remove'),
     path('shop/cart_list',views.cart_list,name='cart_list'),
     path('shop/checkout',views.checkout,name='checkout'),
     path('shop/checkout_success/<str:order_number>/',views.checkout_success,name="checkout_success"),
@@ -32,10 +34,12 @@ urlpatterns = [
     path('logout/',views.logout_view,name='logout'),
 
     path('shop/about',views.shop_about,name='shop_about'),
+    path('shop/contact',views.shop_contact,name='shop_contact'),
     path('categories/', views.shop_categories, name='shop_categories'),
     path('deals/', views.shop_deals, name='shop_deals'),
 
     path('shop/forgot_password',views.forgot_password,name='forgot_password'),
+    path('shop/reset_password/<uidb64>/<token>/',views.reset_password,name='reset_password'),
 
     path('test-email/',views.test_email,name='test_email'),
 ]
