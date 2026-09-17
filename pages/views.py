@@ -427,14 +427,14 @@ def checkout(request):
         )
     return redirect('checkout_success', order_number=order.order_number)
 
-
+@login_required
 def checkout_success(request, order_number):
-    if not request.session.get("customer_id"):
-        return redirect("shop_login")
-
     customer_id = request.session.get("customer_id")
 
-    order = get_object_or_404(Order, order_number=order_number, customer_id=customer_id)
+    if not customer_id:
+        return redirect("shop_login")
+
+    order = get_object_or_404(Order.objects.prefetch_related('items'), order_number=order_number, customer_id=customer_id)
 
     return render(request, 'shop/order_success.html', {
         "order": order

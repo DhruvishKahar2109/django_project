@@ -19,9 +19,7 @@
         <div class="success-icon-wrapper">
 
             <div class="success-icon">
-
                 <i class="fa-solid fa-check"></i>
-
             </div>
 
         </div>
@@ -63,14 +61,14 @@
                     </span>
 
                     <h2>
-                        Order #123456
+                        Order #{{ order.order_number }}
                     </h2>
 
                 </div>
 
 
                 <span class="order-status">
-                    Confirmed
+                    {{ order.get_status_display }}
                 </span>
 
             </div>
@@ -91,7 +89,7 @@
                     </span>
 
                     <strong>
-                        10-09-2026
+                        {{ order.created_at|date:"d-m-Y" }}
                     </strong>
 
                 </div>
@@ -104,7 +102,7 @@
                     </span>
 
                     <strong>
-                        Cash on Delivery
+                        {{ order.get_payment_method_display }}
                     </strong>
 
                 </div>
@@ -130,7 +128,7 @@
                     </span>
 
                     <strong>
-                        ₹100.00
+                        ₹{{ order.total|floatformat:2 }}
                     </strong>
 
                 </div>
@@ -159,15 +157,23 @@
                     </span>
 
                     <strong>
-                        Dhruvish
-                        kahar
+                        {{ order.first_name }}
+                        {{ order.last_name }}
                     </strong>
 
                     <p>
-                        B-4 Shreenathdham soc.,,
-                        Vadodara,
-                        Gujarat
-                        - 390025
+                        {{ order.address }}<br>
+
+                        {{ order.city }},
+                        {{ order.state }} -
+                        {{ order.pincode }}<br>
+
+                        {{ order.country }}
+
+                        {% if order.landmark %}
+                        <br>
+                        Landmark: {{ order.landmark }}
+                        {% endif %}
                     </p>
 
                 </div>
@@ -187,35 +193,66 @@
                 </h3>
 
 
+                {% for item in order.items.all %}
 
                 <div class="ordered-product">
 
+
+                    <!-- PRODUCT IMAGE -->
+
                     <div class="ordered-product-image">
 
+                        {% if item.product.image %}
+
+                        <img
+                                src="{{ item.product.image.url }}"
+                                alt="{{ item.product_name }}"
+                        >
+
+                        {% else %}
+
                         <i class="fa-regular fa-image"></i>
+
+                        {% endif %}
+
                     </div>
 
+
+                    <!-- PRODUCT INFO -->
 
                     <div class="ordered-product-info">
 
                         <strong>
-                           electronics
+                            {{ item.product_name }}
                         </strong>
 
                         <span>
-                            Quantity: 1
+                            Quantity: {{ item.quantity }}
                         </span>
 
                     </div>
 
 
+                    <!-- PRODUCT PRICE -->
+
                     <strong class="ordered-product-price">
-                        ₹100.00
+
+                        ₹{{ item.subtotal|floatformat:2 }}
+
                     </strong>
 
                 </div>
 
+                {% empty %}
+
+                <p>
+                    No products found in this order.
+                </p>
+
+                {% endfor %}
+
             </div>
+
 
         </div>
 
@@ -235,7 +272,8 @@
             </a>
 
 
-            <a href="{% url 'my_orders' %}"
+            <a
+                    href="{% url 'my_orders' %}"
                     class="view-orders-btn">
 
                 View My Orders
@@ -262,6 +300,7 @@
             </a>
 
         </div>
+
 
     </div>
 
