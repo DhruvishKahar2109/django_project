@@ -427,7 +427,6 @@ def checkout(request):
         )
     return redirect('checkout_success', order_number=order.order_number)
 
-@login_required
 def checkout_success(request, order_number):
     customer_id = request.session.get("customer_id")
 
